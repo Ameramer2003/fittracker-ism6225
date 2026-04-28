@@ -10,7 +10,7 @@ A fully functional fitness analytics web application built for ISM 6225 at the U
 |------|------|
 | Amer Amer | Front End and Full Stack Developer, MVC Architecture|
 | [Team Member Name] | [Role and contributions] |
-| [Team Member Name] | [Role and contributions] |
+| Nada Belafqih | Azure Deployment Support & Documentation |
 | [Team Member Name] | [Role and contributions] |
 
 **Course:** ISM 6225 — Application Development for Analytics  
