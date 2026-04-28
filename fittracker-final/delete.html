@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitTracker &#8212; Delete Entry</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .delete-card {
+      background: var(--card); border: 1px solid rgba(255,77,77,.3);
+      border-radius: var(--radius); padding: 36px;
+      max-width: 600px; margin: 0 auto;
+    }
+    .entry-preview {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 8px; padding: 18px 20px; margin: 20px 0;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    }
+    .preview-field label {
+      display: block; font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 3px;
+    }
+    .preview-field span { font-size: 0.92rem; color: var(--white); }
+    .confirm-input { margin-top: 20px; }
+    .warning-icon {
+      width: 60px; height: 60px; border-radius: 50%;
+      background: rgba(255,77,77,.15); border: 2px solid rgba(255,77,77,.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; margin: 0 auto 20px;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a class="nav-brand" href="index.html">&#9889; FIT<span>TRACKER</span></a>
+  <button class="hamburger" onclick="toggleNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="visualizations.html">Analytics</a></li>
+    <li><a href="exercises.html">Exercise Library</a></li>
+    <li><a href="create.html">Log Workout</a></li>
+    <li><a href="read.html">My Log</a></li>
+    <li><a href="mybot.html">AI Coach</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <span class="pill pill-red">DELETE</span>
+  <h2 style="margin-top:12px;">Remove Workout Entry</h2>
+  <p>Permanently delete a workout record from localStorage. This action cannot be undone.</p>
+</div>
+
+<div class="section">
+
+  <div class="alert alert-success" id="deleted-msg" style="display:none; max-width:600px; margin:0 auto 28px;">
+    <span>&#9989;</span>
+    <div><strong>Entry deleted.</strong> The workout record has been permanently removed from your log. <a href="read.html">Back to log &#8594;</a></div>
+  </div>
+
+  <!-- Entry selector -->
+  <div style="max-width:600px; margin:0 auto 28px;">
+    <label class="form-label">Select Entry to Delete</label>
+    <select class="form-control" id="entry-select" onchange="loadEntry(this.value)">
+      <option value="">&#8212; Choose a workout entry &#8212;</option>
+    </select>
+  </div>
+
+  <!-- Delete confirmation card -->
+  <div class="delete-card" id="delete-card" style="opacity:0.4; pointer-events:none;">
+    <div style="text-align:center;">
+      <div class="warning-icon">&#9888;&#65039;</div>
+      <h3 style="color:var(--danger); margin-bottom:8px;">Confirm Deletion</h3>
+      <p style="font-size:0.88rem;">You are about to permanently delete the following workout entry. This action <strong style="color:var(--white);">cannot be undone</strong>.</p>
+    </div>
+
+    <div class="entry-preview">
+      <div class="preview-field"><label>Exercise</label><span id="prev-exercise">&#8212;</span></div>
+      <div class="preview-field"><label>Date</label><span id="prev-date">&#8212;</span></div>
+      <div class="preview-field"><label>Category</label><span id="prev-cat">&#8212;</span></div>
+      <div class="preview-field"><label>Calories</label><span id="prev-cal" style="color:var(--green);">&#8212;</span></div>
+      <div class="preview-field"><label>Sets &#215; Reps</label><span id="prev-sets">&#8212;</span></div>
+      <div class="preview-field"><label>Weight</label><span id="prev-weight">&#8212;</span></div>
+    </div>
+
+    <div class="confirm-input">
+      <label class="form-label">Type <strong style="color:var(--danger);">DELETE</strong> to confirm</label>
+      <input type="text" class="form-control" id="confirm-input" placeholder="DELETE" oninput="checkConfirm(this.value)" />
+    </div>
+
+    <div style="display:flex; gap:12px; justify-content:flex-end; margin-top:24px;">
+      <a href="read.html" class="btn btn-outline">Cancel</a>
+      <button class="btn btn-danger" id="delete-btn" disabled onclick="executeDelete()">&#128465;&#65039; Delete Entry</button>
+    </div>
+  </div>
+
+  <!-- UX explanation -->
+  <div style="max-width:600px; margin:48px auto 0;">
+    <div class="card">
+      <h3 style="color:var(--white); margin-bottom:12px;">Why a Confirmation Step?</h3>
+      <p style="font-size:0.9rem; line-height:1.7;">Requiring users to type "DELETE" before removing a record is a well-established UX pattern used in production systems (GitHub, AWS, Vercel). It prevents accidental data loss while keeping the interface clean. In analytics applications where data integrity is critical, this extra step significantly reduces user error.</p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>&#9889; <strong>FitTracker</strong> &#8212; ISM 6225 Application Development for Analytics &nbsp;&#183;&nbsp; University of South Florida</p>
+</footer>
+
+<script src="js/storage.js"></script>
+<script src="js/workoutController.js"></script>
+<script>
+  function toggleNav() { document.getElementById('nav-links').classList.toggle('open'); }
+
+  FitStorage.init();
+
+  let currentId = null;
+
+  // Populate the select dropdown from localStorage
+  function populateSelect() {
+    const select = document.getElementById('entry-select');
+    const workouts = FitStorage.getAll();
+    workouts.forEach(w => {
+      const opt = document.createElement('option');
+      opt.value = w.id;
+      opt.textContent = `${w.date} -- ${w.exercise} (${w.category}) -- ${w.calories} kcal`;
+      select.appendChild(opt);
+    });
+  }
+
+  // Load entry preview into the card
+  function loadEntry(id) {
+    const card = document.getElementById('delete-card');
+    if (!id) {
+      card.style.opacity = '0.4';
+      card.style.pointerEvents = 'none';
+      currentId = null;
+      return;
+    }
+    const w = FitStorage.getById(id);
+    if (!w) return;
+    currentId = parseInt(id);
+    card.style.opacity = '1';
+    card.style.pointerEvents = 'auto';
+    document.getElementById('prev-exercise').textContent = w.exercise;
+    document.getElementById('prev-date').textContent     = w.date;
+    document.getElementById('prev-cat').textContent      = w.category;
+    document.getElementById('prev-cal').textContent      = `${w.calories} kcal`;
+    document.getElementById('prev-sets').textContent     = `${w.sets} x ${w.reps}`;
+    document.getElementById('prev-weight').textContent   = w.weight === 0 ? 'Bodyweight' : `${w.weight} lbs`;
+    document.getElementById('confirm-input').value       = '';
+    document.getElementById('delete-btn').disabled       = true;
+    // Hide success message when re-selecting
+    document.getElementById('deleted-msg').style.display = 'none';
+  }
+
+  // Enable delete button only when user types DELETE exactly
+  function checkConfirm(val) {
+    document.getElementById('delete-btn').disabled = val.trim() !== 'DELETE';
+  }
+
+  // Perform the actual delete from localStorage
+  function executeDelete() {
+    if (!currentId) return;
+    WorkoutController.handleDelete(currentId);
+    // Remove the option from the dropdown
+    const select = document.getElementById('entry-select');
+    const opt = select.querySelector(`option[value="${currentId}"]`);
+    if (opt) opt.remove();
+    // Reset UI
+    document.getElementById('delete-card').style.opacity = '0.4';
+    document.getElementById('delete-card').style.pointerEvents = 'none';
+    select.value = '';
+    currentId = null;
+    const msg = document.getElementById('deleted-msg');
+    msg.style.display = 'flex';
+    msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  // Initialize
+  populateSelect();
+
+  // If arriving from read.html with ?id=X, auto-select that entry
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('id')) {
+    const id = params.get('id');
+    document.getElementById('entry-select').value = id;
+    loadEntry(id);
+  }
+</script>
+</body>
+</html>

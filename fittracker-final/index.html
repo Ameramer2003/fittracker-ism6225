@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitTracker &#8212; Home</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .hero {
+      position: relative;
+      min-height: calc(100vh - 64px);
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding: 80px 5%;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 60% at 70% 50%, rgba(0,230,118,0.08) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 20% 80%, rgba(255,107,53,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,230,118,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,230,118,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+    .hero-content { position: relative; max-width: 680px; }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      color: var(--green); font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 3px; text-transform: uppercase; margin-bottom: 20px;
+    }
+    .hero-eyebrow::before { content: ''; display: block; width: 32px; height: 2px; background: var(--green); }
+    .hero h1 { color: var(--white); margin-bottom: 20px; }
+    .hero h1 em { color: var(--green); font-style: normal; }
+    .hero p { font-size: 1.05rem; max-width: 480px; margin-bottom: 36px; line-height: 1.7; }
+    .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; }
+    .stats-strip {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 40px 5%;
+    }
+    .stats-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px;
+    }
+    .feature-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: rgba(0,230,118,0.1); border: 1px solid rgba(0,230,118,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; margin-bottom: 16px;
+    }
+    .feature-card h3 { font-size: 1.1rem; margin-bottom: 8px; color: var(--white); }
+    .crud-row {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 16px; margin-top: 40px;
+    }
+    .crud-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px;
+      display: flex; flex-direction: column; gap: 12px; transition: all .25s;
+    }
+    .crud-card:hover { transform: translateY(-4px); box-shadow: var(--glow); border-color: var(--green-dim); }
+    .crud-label { font-family: 'Bebas Neue', sans-serif; letter-spacing: 2px; font-size: 1.3rem; }
+    .crud-card p { font-size: 0.85rem; flex: 1; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a class="nav-brand" href="index.html">&#9889; FIT<span>TRACKER</span></a>
+  <button class="hamburger" onclick="toggleNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="visualizations.html">Analytics</a></li>
+    <li><a href="exercises.html">Exercise Library</a></li>
+    <li><a href="create.html">Log Workout</a></li>
+    <li><a href="read.html">My Log</a></li>
+    <li><a href="mybot.html">AI Coach</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <span class="hero-eyebrow">&#127947;&#65039; Your Fitness Companion</span>
+    <h1>Track Every Rep.<br>Own Every <em>Workout.</em></h1>
+    <p>FitTracker is your all-in-one fitness analytics platform. Log workouts, visualize progress, browse exercises from a live API, and get personalized AI coaching &#8212; all powered by real data.</p>
+    <div class="hero-cta">
+      <a href="create.html" class="btn btn-primary">&#127947;&#65039; Log Workout</a>
+      <a href="visualizations.html" class="btn btn-outline">&#128202; View Analytics</a>
+    </div>
+  </div>
+</section>
+
+<!-- DYNAMIC STATS from localStorage -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat-box card">
+      <div class="stat-num" id="stat-total">&#8212;</div>
+      <div class="stat-label">Workouts Logged</div>
+    </div>
+    <div class="stat-box card">
+      <div class="stat-num" id="stat-cal">&#8212;</div>
+      <div class="stat-label">Calories Burned</div>
+    </div>
+    <div class="stat-box card">
+      <div class="stat-num" id="stat-sets">&#8212;</div>
+      <div class="stat-label">Total Sets</div>
+    </div>
+    <div class="stat-box card">
+      <div class="stat-num" id="stat-cats">&#8212;</div>
+      <div class="stat-label">Categories</div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<div class="section">
+  <p class="section-tag">What We Offer</p>
+  <h2>Built for Athletes.<br>Powered by Data.</h2>
+  <span class="accent-bar"></span>
+
+  <div class="grid-3" style="margin-top:40px;">
+    <div class="card feature-card">
+      <div class="feature-icon">&#128200;</div>
+      <h3>Progress Analytics</h3>
+      <p>Interactive charts powered by Chart.js show your real workout trends pulled directly from your logged data. Weekly calories, duration trends, and category mix all update as you train.</p>
+    </div>
+    <div class="card feature-card">
+      <div class="feature-icon">&#128218;</div>
+      <h3>Exercise Library</h3>
+      <p>Browse hundreds of exercises fetched live from the wger REST API. Filter by muscle group, view muscles targeted and equipment needed, then add any exercise directly to your workout log.</p>
+    </div>
+    <div class="card feature-card">
+      <div class="feature-icon">&#129302;</div>
+      <h3>AI Coach</h3>
+      <p>FitBot is your Botpress-powered AI assistant trained on a curated exercise dataset. Ask about routines, form, muscles targeted, and equipment requirements.</p>
+    </div>
+    <div class="card feature-card">
+      <div class="feature-icon">&#128450;&#65039;</div>
+      <h3>Full CRUD Workout Log</h3>
+      <p>Create, view, edit, and delete workout entries with data persisted to localStorage. Your workout history survives browser refreshes and is used to power the analytics charts.</p>
+    </div>
+    <div class="card feature-card">
+      <div class="feature-icon">&#128241;</div>
+      <h3>Fully Responsive</h3>
+      <p>FitTracker works seamlessly on desktop, tablet, and mobile &#8212; track workouts anywhere, anytime with a clean dark athletic interface.</p>
+    </div>
+    <div class="card feature-card">
+      <div class="feature-icon">&#128190;</div>
+      <h3>Smart Filtering</h3>
+      <p>Search and filter your workout log by exercise name, category, or notes. The Exercise Library also filters by muscle group in real-time from the live API.</p>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <p class="section-tag">Manage Your Workouts</p>
+  <h2>Your Fitness Tools</h2>
+  <span class="accent-bar"></span>
+
+  <div class="crud-row">
+    <div class="crud-card">
+      <div class="feature-icon" style="background:rgba(0,230,118,.1); border-color:rgba(0,230,118,.2);">&#10133;</div>
+      <div class="crud-label" style="color:var(--green);">Create</div>
+      <p>Log a new workout session &#8212; enter exercise, sets, reps, weight, and calories. Data saves instantly to localStorage.</p>
+      <a href="create.html" class="btn btn-primary">Log Workout</a>
+    </div>
+    <div class="crud-card">
+      <div class="feature-icon" style="background:rgba(100,180,255,.1); border-color:rgba(100,180,255,.2);">&#128065;&#65039;</div>
+      <div class="crud-label" style="color:#64b4ff;">Read</div>
+      <p>Browse your full workout history with live search, category filter, and sortable table. Loads directly from localStorage.</p>
+      <a href="read.html" class="btn btn-outline" style="border-color:#64b4ff; color:#64b4ff;">View Log</a>
+    </div>
+    <div class="crud-card">
+      <div class="feature-icon" style="background:rgba(255,107,53,.1); border-color:rgba(255,107,53,.2);">&#9999;&#65039;</div>
+      <div class="crud-label" style="color:var(--orange);">Update</div>
+      <p>Select any existing workout entry to modify reps, weight, notes, or category. Changes persist immediately.</p>
+      <a href="update.html" class="btn btn-orange">Edit Entry</a>
+    </div>
+    <div class="crud-card">
+      <div class="feature-icon" style="background:rgba(255,77,77,.1); border-color:rgba(255,77,77,.2);">&#128465;&#65039;</div>
+      <div class="crud-label" style="color:var(--danger);">Delete</div>
+      <p>Remove any workout entry with a type-to-confirm safety check. The entry is permanently removed from localStorage.</p>
+      <a href="delete.html" class="btn btn-danger">Remove Entry</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>&#9889; <strong>FitTracker</strong> &#8212; ISM 6225 Application Development for Analytics &nbsp;&#183;&nbsp; University of South Florida</p>
+</footer>
+
+<script src="js/storage.js"></script>
+<script>
+  function toggleNav() { document.getElementById('nav-links').classList.toggle('open'); }
+
+  // Initialize storage and update live stats
+  FitStorage.init();
+  const stats = FitStorage.getStats();
+  document.getElementById('stat-total').textContent = stats.total;
+  document.getElementById('stat-cal').textContent   = stats.totalCal.toLocaleString();
+  document.getElementById('stat-sets').textContent  = stats.totalSets;
+  document.getElementById('stat-cats').textContent  = stats.cats;
+</script>
+</body>
+</html>

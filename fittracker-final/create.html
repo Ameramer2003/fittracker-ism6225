@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitTracker &#8212; Log Workout</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .form-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 40px;
+      max-width: 680px; margin: 0 auto;
+    }
+    .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 600px) {
+      .form-grid-2 { grid-template-columns: 1fr; }
+      .form-card { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a class="nav-brand" href="index.html">&#9889; FIT<span>TRACKER</span></a>
+  <button class="hamburger" onclick="toggleNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="visualizations.html">Analytics</a></li>
+    <li><a href="exercises.html">Exercise Library</a></li>
+    <li><a href="create.html" class="active">Log Workout</a></li>
+    <li><a href="read.html">My Log</a></li>
+    <li><a href="mybot.html">AI Coach</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <span class="pill pill-green">CREATE</span>
+  <h2 style="margin-top:12px;">Log a New Workout</h2>
+  <p>Record your exercise session. Data is saved to localStorage and reflected across all pages.</p>
+</div>
+
+<div class="section">
+
+  <div class="alert alert-success" id="success-msg" style="display:none; max-width:680px; margin:0 auto 32px;">
+    <span>&#9989;</span>
+    <div>
+      <strong>Workout logged successfully!</strong><br>
+      Your entry has been saved. <a href="read.html">View your log &#8594;</a> &nbsp;|&nbsp; <a href="create.html">Log another &#8594;</a>
+    </div>
+  </div>
+
+  <div class="form-card">
+    <p class="section-tag">New Entry</p>
+    <h3 style="color:var(--white); margin-bottom:6px;">Workout Details</h3>
+    <p style="margin-bottom:28px; font-size:0.85rem;">Fill in your session details and click Save. All fields marked with * are required.</p>
+
+    <form id="workout-form" onsubmit="submitForm(event)">
+
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label class="form-label">Date *</label>
+          <input type="date" class="form-control" id="workout-date" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Duration (minutes) *</label>
+          <input type="number" class="form-control" id="workout-duration" placeholder="e.g. 45" min="1" max="300" required />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Exercise Name *</label>
+        <input type="text" class="form-control" id="workout-exercise" placeholder="e.g. Bench Press, Squat, Running" required />
+      </div>
+
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label class="form-label">Category / Muscle Group *</label>
+          <select class="form-control" id="workout-category" required>
+            <option value="">&#8212; Select &#8212;</option>
+            <option>Chest</option><option>Back</option><option>Legs</option>
+            <option>Shoulders</option><option>Arms</option><option>Core</option>
+            <option>Cardio</option><option>Full Body</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Difficulty *</label>
+          <select class="form-control" id="workout-difficulty" required>
+            <option value="">&#8212; Select &#8212;</option>
+            <option>Beginner</option><option>Intermediate</option><option>Advanced</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label class="form-label">Sets *</label>
+          <input type="number" class="form-control" id="workout-sets" placeholder="e.g. 4" min="1" max="20" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Reps per Set *</label>
+          <input type="number" class="form-control" id="workout-reps" placeholder="e.g. 10" min="1" max="100" required />
+        </div>
+      </div>
+
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label class="form-label">Weight Used (lbs)</label>
+          <input type="number" class="form-control" id="workout-weight" placeholder="0 for bodyweight" min="0" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Calories Burned (est.)</label>
+          <input type="number" class="form-control" id="workout-calories" placeholder="e.g. 280" min="0" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Equipment Used</label>
+        <select class="form-control" id="workout-equipment">
+          <option value="">&#8212; Select &#8212;</option>
+          <option>Barbell</option><option>Dumbbell</option><option>Cable Machine</option>
+          <option>Resistance Band</option><option>Bodyweight</option>
+          <option>Kettlebell</option><option>Treadmill</option><option>Other</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Notes (optional)</label>
+        <textarea class="form-control" id="workout-notes" rows="3" placeholder="Personal records, how you felt, modifications made..."></textarea>
+      </div>
+
+      <div style="display:flex; gap:12px; justify-content:flex-end; margin-top:8px;">
+        <a href="read.html" class="btn btn-outline">Cancel</a>
+        <button type="submit" class="btn btn-primary">&#127947;&#65039; Save Workout</button>
+      </div>
+    </form>
+  </div>
+
+</div>
+
+<footer>
+  <p>&#9889; <strong>FitTracker</strong> &#8212; ISM 6225 Application Development for Analytics &nbsp;&#183;&nbsp; University of South Florida</p>
+</footer>
+
+<script src="js/storage.js"></script>
+<script src="js/workoutController.js"></script>
+<script>
+  function toggleNav() { document.getElementById('nav-links').classList.toggle('open'); }
+
+  // Initialize storage
+  FitStorage.init();
+
+  // Pre-fill today's date
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('workout-date').value = today;
+
+  // Pre-fill from URL params (when coming from Exercise Library "Add to Workout")
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('exercise')) {
+    document.getElementById('workout-exercise').value  = params.get('exercise');
+  }
+  if (params.get('category')) {
+    const catSelect = document.getElementById('workout-category');
+    const val = params.get('category');
+    // Try to match the param to one of the existing options
+    for (const opt of catSelect.options) {
+      if (opt.value.toLowerCase() === val.toLowerCase()) {
+        catSelect.value = opt.value;
+        break;
+      }
+    }
+  }
+
+  // FORM SUBMIT -- saves to localStorage via WorkoutController
+  function submitForm(e) {
+    e.preventDefault();
+    const form = document.getElementById('workout-form');
+    const saved = WorkoutController.handleCreate(form);
+    if (saved) {
+      const msg = document.getElementById('success-msg');
+      msg.style.display = 'flex';
+      msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      form.reset();
+      document.getElementById('workout-date').value = today;
+    }
+  }
+</script>
+</body>
+</html>

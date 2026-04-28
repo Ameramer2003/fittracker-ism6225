@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitTracker &#8212; AI Coach</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .bpw-botpress-button,
+    .bpw-bubble-launcher {
+      display: none !important; visibility: hidden !important;
+      opacity: 0 !important; pointer-events: none !important;
+      width: 0 !important; height: 0 !important;
+    }
+    .bot-hero {
+      background: linear-gradient(135deg, rgba(0,230,118,0.06) 0%, rgba(100,180,255,0.04) 100%);
+      border-bottom: 1px solid var(--border); padding: 60px 5%; text-align: center;
+    }
+    .sample-q {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-left: 3px solid var(--green); border-radius: 8px;
+      padding: 14px 18px; font-size: 0.88rem; color: var(--white);
+      margin-bottom: 10px; cursor: pointer; transition: all .2s;
+    }
+    .sample-q:hover { border-left-color: var(--orange); background: rgba(0,230,118,0.04); }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a class="nav-brand" href="index.html">&#9889; FIT<span>TRACKER</span></a>
+  <button class="hamburger" onclick="toggleNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="visualizations.html">Analytics</a></li>
+    <li><a href="exercises.html">Exercise Library</a></li>
+    <li><a href="create.html">Log Workout</a></li>
+    <li><a href="read.html">My Log</a></li>
+    <li><a href="mybot.html" class="active">AI Coach</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</nav>
+
+<div class="bot-hero">
+  <span class="pill pill-green">AI COACH</span>
+  <h2 style="margin-top:14px;">FitBot &#8212; Your AI Fitness Coach</h2>
+  <p style="max-width:540px; margin:12px auto 0;">
+    Ask FitBot anything about exercises, muscle groups, equipment, difficulty, and calories. Powered by Botpress and trained on our curated exercise dataset.
+  </p>
+</div>
+
+<div class="section">
+  <div style="max-width:900px; margin:0 auto;">
+    <p class="section-tag">Try Asking</p>
+    <div class="sample-q">What exercises target the chest?</div>
+    <div class="sample-q">How many calories does a deadlift burn?</div>
+    <div class="sample-q">What equipment do I need for pull-ups?</div>
+    <div class="sample-q">Show me beginner-level exercises</div>
+    <div class="sample-q">What muscle groups does the squat work?</div>
+
+    <hr class="divider" />
+
+    <div class="card" style="margin-top:28px;">
+      <h3 style="color:var(--white); margin-bottom:12px;">About FitBot</h3>
+      <p style="font-size:0.9rem; line-height:1.7;">FitBot is built on Botpress and trained on a 10-row curated exercise dataset covering exercise names, categories, difficulty levels, equipment, muscle groups, sets, reps, and estimated calories per session. It is designed to answer common fitness questions and help users plan their workout sessions.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>&#9889; <strong>FitTracker</strong> &#8212; ISM 6225 Application Development for Analytics &nbsp;&#183;&nbsp; University of South Florida</p>
+</footer>
+
+<script>
+  function toggleNav() { document.getElementById('nav-links').classList.toggle('open'); }
+
+  // Hide Botpress launcher button
+  const hideButtons = () => {
+    document.querySelectorAll('.bpw-botpress-button, .bpw-bubble-launcher, [class*="Launcher"]').forEach(el => {
+      el.style.cssText = 'display:none!important;visibility:hidden!important;';
+    });
+  };
+  hideButtons();
+  const obs = new MutationObserver(hideButtons);
+  obs.observe(document.body, { childList: true, subtree: true });
+</script>
+<script src="https://cdn.botpress.cloud/webchat/v3.6/inject.js"></script>
+<script src="https://files.bpcontent.cloud/2026/04/10/20/20260410204139-3YF0BX4K.js" defer></script>
+</body>
+</html>

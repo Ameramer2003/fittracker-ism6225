@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitTracker &#8212; Exercise Library</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<nav class="navbar">
+  <a class="nav-brand" href="index.html">&#9889; FIT<span>TRACKER</span></a>
+  <button class="hamburger" onclick="toggleNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="visualizations.html">Analytics</a></li>
+    <li><a href="exercises.html" class="active">Exercise Library</a></li>
+    <li><a href="create.html">Log Workout</a></li>
+    <li><a href="read.html">My Log</a></li>
+    <li><a href="mybot.html">AI Coach</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <span class="pill pill-blue">LIVE API</span>
+  <h2 style="margin-top:12px;">Exercise Library</h2>
+  <p>Exercises fetched live from the <strong style="color:var(--white);">wger REST API</strong> (wger.de). Filter by category, search by name, and add any exercise directly to your workout log.</p>
+</div>
+
+<div class="section">
+
+  <!-- API info banner -->
+  <div class="alert alert-warning" style="margin-bottom:32px;">
+    <span>&#127760;</span>
+    <div style="font-size:0.85rem;">
+      <strong style="color:var(--white);">Live Data from wger.de</strong><br>
+      This page uses <code style="color:var(--green);">fetch()</code> to call <code style="color:var(--green);">https://wger.de/api/v2/</code> in real-time. No API key required. Exercises update from the live database on every page load.
+    </div>
+  </div>
+
+  <!-- Search + filter row -->
+  <div style="display:flex; gap:12px; margin-bottom:20px; flex-wrap:wrap; align-items:center;">
+    <input type="text" class="form-control" id="search-input" placeholder="&#128269;  Search exercises..." style="flex:1; min-width:200px;" oninput="applySearch()" />
+    <span id="result-count" style="font-size:0.82rem; color:var(--muted); white-space:nowrap;"></span>
+  </div>
+
+  <!-- Category filter pills (populated from API) -->
+  <div class="cat-filters" id="cat-filters">
+    <button class="cat-pill active" onclick="filterByCategory(null, this)" data-id="">All</button>
+    <!-- Category pills are injected here by JS -->
+  </div>
+
+  <!-- Exercise grid -->
+  <div class="ex-grid" id="ex-grid">
+    <!-- Skeleton loaders shown while fetching -->
+    <div class="skeleton-card" id="sk1">
+      <div class="skeleton" style="height:18px; width:70%;"></div>
+      <div class="skeleton" style="height:12px; width:40%;"></div>
+      <div class="skeleton" style="height:60px; width:100%;"></div>
+    </div>
+    <div class="skeleton-card" id="sk2">
+      <div class="skeleton" style="height:18px; width:60%;"></div>
+      <div class="skeleton" style="height:12px; width:35%;"></div>
+      <div class="skeleton" style="height:60px; width:100%;"></div>
+    </div>
+    <div class="skeleton-card" id="sk3">
+      <div class="skeleton" style="height:18px; width:75%;"></div>
+      <div class="skeleton" style="height:12px; width:45%;"></div>
+      <div class="skeleton" style="height:60px; width:100%;"></div>
+    </div>
+    <div class="skeleton-card" id="sk4">
+      <div class="skeleton" style="height:18px; width:55%;"></div>
+      <div class="skeleton" style="height:12px; width:38%;"></div>
+      <div class="skeleton" style="height:60px; width:100%;"></div>
+    </div>
+  </div>
+
+  <!-- Load more -->
+  <div class="load-more-wrap" id="load-more-wrap" style="display:none;">
+    <button class="btn btn-outline" id="load-more-btn" onclick="loadMore()">Load More Exercises &#8595;</button>
+  </div>
+
+  <!-- Error state -->
+  <div id="error-state" style="display:none;" class="empty-state">
+    <div class="big-icon">&#9888;&#65039;</div>
+    <h3>Could Not Load Exercises</h3>
+    <p>The wger API may be temporarily unavailable. Please try refreshing the page.</p>
+    <button class="btn btn-primary" style="margin-top:16px;" onclick="initPage()">&#8635; Try Again</button>
+  </div>
+
+</div>
+
+<footer>
+  <p>&#9889; <strong>FitTracker</strong> &#8212; ISM 6225 Application Development for Analytics &nbsp;&#183;&nbsp; University of South Florida</p>
+</footer>
+
+<script src="js/apiController.js"></script>
+<script>
+  function toggleNav() { document.getElementById('nav-links').classList.toggle('open'); }
+
+  // State
+  let allExercises  = [];   // All exercises fetched so far
+  let currentOffset = 0;
+  let currentCatId  = null;
+  let hasMore       = false;
+
+  // Map wger category names to our internal category names for "Add to Workout"
+  const CAT_MAP = {
+    'Abs':       'Core',
+    'Arms':      'Arms',
+    'Back':      'Back',
+    'Calves':    'Legs',
+    'Chest':     'Chest',
+    'Legs':      'Legs',
+    'Shoulders': 'Shoulders',
+  };
+
+  // Remove skeleton loaders
+  function clearSkeletons() {
+    ['sk1','sk2','sk3','sk4'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    });
+  }
+
+  // Build an exercise card HTML
+  function buildCard(ex) {
+    const mappedCat = CAT_MAP[ex.category] || 'Full Body';
+    const addUrl = `create.html?exercise=${encodeURIComponent(ex.name)}&category=${encodeURIComponent(mappedCat)}`;
+    return `
+      <div class="ex-card">
+        <div class="ex-card-name">${ex.name}</div>
+        <span class="ex-card-cat">${ex.category}</span>
+        <div class="ex-card-meta">
+          <div class="ex-meta-row">&#128170; <strong>Muscles:</strong> ${ex.muscles}</div>
+          <div class="ex-meta-row">&#9881;&#65039; <strong>Equipment:</strong> ${ex.equipment}</div>
+        </div>
+        ${ex.description ? `<p class="ex-card-desc">${ex.description}</p>` : ''}
+        <div class="ex-card-footer">
+          <a href="${addUrl}" class="btn btn-primary" style="width:100%; justify-content:center; padding:9px 16px; font-size:0.82rem;">
+            &#10133; Add to Workout
+          </a>
+        </div>
+      </div>
+    `;
+  }
+
+  // Render filtered exercises into the grid
+  function renderGrid(exercises) {
+    const grid = document.getElementById('ex-grid');
+    const q = document.getElementById('search-input').value.toLowerCase().trim();
+    const filtered = q
+      ? exercises.filter(ex =>
+          ex.name.toLowerCase().includes(q) ||
+          ex.muscles.toLowerCase().includes(q) ||
+          ex.category.toLowerCase().includes(q)
+        )
+      : exercises;
+
+    if (filtered.length === 0) {
+      grid.innerHTML = `
+        <div class="empty-state" style="grid-column:1/-1;">
+          <div class="big-icon">&#128269;</div>
+          <h3>No exercises found</h3>
+          <p>Try a different search term or select a different category.</p>
+        </div>`;
+    } else {
+      grid.innerHTML = filtered.map(buildCard).join('');
+    }
+    document.getElementById('result-count').textContent = `${filtered.length} exercise${filtered.length !== 1 ? 's' : ''}`;
+  }
+
+  // Apply search filter to already-loaded exercises
+  function applySearch() {
+    renderGrid(allExercises);
+  }
+
+  // Fetch exercises for a category (or all), starting from offset 0
+  async function filterByCategory(catId, btn) {
+    // Update active pill
+    document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    currentCatId  = catId;
+    currentOffset = 0;
+    allExercises  = [];
+    document.getElementById('search-input').value = '';
+    document.getElementById('load-more-wrap').style.display = 'none';
+    document.getElementById('ex-grid').innerHTML = `
+      <div class="skeleton-card"><div class="skeleton" style="height:18px;width:70%;"></div><div class="skeleton" style="height:60px;margin-top:12px;"></div></div>
+      <div class="skeleton-card"><div class="skeleton" style="height:18px;width:60%;"></div><div class="skeleton" style="height:60px;margin-top:12px;"></div></div>
+      <div class="skeleton-card"><div class="skeleton" style="height:18px;width:75%;"></div><div class="skeleton" style="height:60px;margin-top:12px;"></div></div>
+    `;
+    await fetchAndAppend();
+  }
+
+  // Fetch next page of exercises and append
+  async function fetchAndAppend() {
+    try {
+      const result = await ApiController.getExercises(currentCatId, currentOffset);
+      allExercises  = [...allExercises, ...result.exercises];
+      currentOffset = result.nextOffset;
+      hasMore       = result.hasMore;
+      clearSkeletons();
+      renderGrid(allExercises);
+      document.getElementById('load-more-wrap').style.display = hasMore ? 'block' : 'none';
+    } catch (err) {
+      clearSkeletons();
+      document.getElementById('ex-grid').innerHTML = '';
+      document.getElementById('error-state').style.display = 'block';
+      console.error('API error:', err);
+    }
+  }
+
+  async function loadMore() {
+    document.getElementById('load-more-btn').textContent = 'Loading...';
+    document.getElementById('load-more-btn').disabled = true;
+    await fetchAndAppend();
+    document.getElementById('load-more-btn').textContent = 'Load More Exercises &#8595;';
+    document.getElementById('load-more-btn').disabled = false;
+  }
+
+  // Initialize: load categories then exercises
+  async function initPage() {
+    document.getElementById('error-state').style.display = 'none';
+    try {
+      const cats = await ApiController.getCategories();
+      const filtersDiv = document.getElementById('cat-filters');
+      cats.forEach(cat => {
+        const btn = document.createElement('button');
+        btn.className = 'cat-pill';
+        btn.textContent = cat.name;
+        btn.dataset.id = cat.id;
+        btn.onclick = () => filterByCategory(cat.id, btn);
+        filtersDiv.appendChild(btn);
+      });
+    } catch (e) {
+      console.warn('Could not load categories:', e);
+    }
+    await fetchAndAppend();
+  }
+
+  initPage();
+</script>
+</body>
+</html>

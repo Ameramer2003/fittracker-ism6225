@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitTracker &#8212; Edit Workout Entry</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .form-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 40px;
+      max-width: 680px; margin: 0 auto;
+    }
+    .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .entry-selector {
+      background: var(--bg2); border: 1px solid var(--green);
+      border-radius: var(--radius); padding: 20px;
+      max-width: 680px; margin: 0 auto 32px;
+    }
+    .original-value { font-size: 0.72rem; color: var(--muted); margin-top: 4px; }
+    @media (max-width: 600px) {
+      .form-grid-2 { grid-template-columns: 1fr; }
+      .form-card { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a class="nav-brand" href="index.html">&#9889; FIT<span>TRACKER</span></a>
+  <button class="hamburger" onclick="toggleNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="visualizations.html">Analytics</a></li>
+    <li><a href="exercises.html">Exercise Library</a></li>
+    <li><a href="create.html">Log Workout</a></li>
+    <li><a href="read.html">My Log</a></li>
+    <li><a href="mybot.html">AI Coach</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <span class="pill pill-orange">UPDATE</span>
+  <h2 style="margin-top:12px;">Edit Workout Entry</h2>
+  <p>Modify an existing workout record. Changes are saved back to localStorage immediately.</p>
+</div>
+
+<div class="section">
+
+  <div class="alert alert-success" id="success-msg" style="display:none; max-width:680px; margin:0 auto 28px;">
+    <span>&#9989;</span>
+    <div><strong>Entry updated successfully!</strong> Your workout record has been modified. <a href="read.html">Back to log &#8594;</a></div>
+  </div>
+
+  <!-- Entry selector dropdown -->
+  <div class="entry-selector">
+    <label class="form-label">Select Entry to Edit</label>
+    <select class="form-control" id="entry-select" onchange="loadEntry(this.value)">
+      <option value="">&#8212; Choose a workout to edit &#8212;</option>
+    </select>
+  </div>
+
+  <!-- Edit form (shown after selecting an entry) -->
+  <div class="form-card" id="edit-form-card" style="opacity:0.4; pointer-events:none;">
+    <p class="section-tag">Editing Entry</p>
+    <h3 style="color:var(--white); margin-bottom:6px;" id="form-title">Select an entry above</h3>
+    <p style="margin-bottom:28px; font-size:0.85rem;">Modify any fields below and click Save Changes. Original values shown in grey.</p>
+
+    <form id="edit-form" onsubmit="submitUpdate(event)">
+
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label class="form-label">Date</label>
+          <input type="date" class="form-control" id="edit-date" />
+          <div class="original-value" id="orig-date"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Duration (minutes)</label>
+          <input type="number" class="form-control" id="edit-duration" min="1" max="300" />
+          <div class="original-value" id="orig-duration"></div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Exercise Name</label>
+        <input type="text" class="form-control" id="edit-exercise" />
+        <div class="original-value" id="orig-exercise"></div>
+      </div>
+
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <select class="form-control" id="edit-category">
+            <option>Chest</option><option>Back</option><option>Legs</option>
+            <option>Shoulders</option><option>Arms</option><option>Core</option>
+            <option>Cardio</option><option>Full Body</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Difficulty</label>
+          <select class="form-control" id="edit-diff">
+            <option>Beginner</option><option>Intermediate</option><option>Advanced</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label class="form-label">Sets</label>
+          <input type="number" class="form-control" id="edit-sets" min="1" max="20" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Reps per Set</label>
+          <input type="number" class="form-control" id="edit-reps" min="1" max="100" />
+        </div>
+      </div>
+
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label class="form-label">Weight (lbs)</label>
+          <input type="number" class="form-control" id="edit-weight" min="0" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Calories Burned</label>
+          <input type="number" class="form-control" id="edit-cal" min="0" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Equipment Used</label>
+        <select class="form-control" id="edit-equipment">
+          <option value="">&#8212; Select &#8212;</option>
+          <option>Barbell</option><option>Dumbbell</option><option>Cable Machine</option>
+          <option>Resistance Band</option><option>Bodyweight</option>
+          <option>Kettlebell</option><option>Treadmill</option><option>Other</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Notes</label>
+        <textarea class="form-control" id="edit-notes" rows="3" placeholder="Add notes..."></textarea>
+      </div>
+
+      <div style="display:flex; gap:12px; justify-content:flex-end; margin-top:8px;">
+        <a href="read.html" class="btn btn-outline">Cancel</a>
+        <button type="submit" class="btn btn-orange">&#128190; Save Changes</button>
+      </div>
+    </form>
+  </div>
+
+</div>
+
+<footer>
+  <p>&#9889; <strong>FitTracker</strong> &#8212; ISM 6225 Application Development for Analytics &nbsp;&#183;&nbsp; University of South Florida</p>
+</footer>
+
+<script src="js/storage.js"></script>
+<script src="js/workoutController.js"></script>
+<script>
+  function toggleNav() { document.getElementById('nav-links').classList.toggle('open'); }
+
+  FitStorage.init();
+
+  let currentId = null;
+
+  // Populate the select dropdown from localStorage
+  function populateSelect() {
+    const select = document.getElementById('entry-select');
+    const workouts = FitStorage.getAll();
+    workouts.forEach(w => {
+      const opt = document.createElement('option');
+      opt.value = w.id;
+      opt.textContent = `${w.date} -- ${w.exercise} (${w.category})`;
+      select.appendChild(opt);
+    });
+  }
+
+  // Load a workout's data into the form fields
+  function loadEntry(id) {
+    const card = document.getElementById('edit-form-card');
+    if (!id) {
+      card.style.opacity = '0.4';
+      card.style.pointerEvents = 'none';
+      currentId = null;
+      return;
+    }
+    const w = FitStorage.getById(id);
+    if (!w) return;
+    currentId = parseInt(id);
+    card.style.opacity = '1';
+    card.style.pointerEvents = 'auto';
+    document.getElementById('form-title').textContent = `Editing: ${w.exercise}`;
+    document.getElementById('edit-date').value      = w.date;
+    document.getElementById('edit-duration').value  = w.duration;
+    document.getElementById('edit-exercise').value  = w.exercise;
+    document.getElementById('edit-category').value  = w.category;
+    document.getElementById('edit-diff').value      = w.difficulty;
+    document.getElementById('edit-sets').value      = w.sets;
+    document.getElementById('edit-reps').value      = w.reps;
+    document.getElementById('edit-weight').value    = w.weight;
+    document.getElementById('edit-cal').value       = w.calories;
+    document.getElementById('edit-equipment').value = w.equipment || '';
+    document.getElementById('edit-notes').value     = w.notes || '';
+    document.getElementById('orig-exercise').textContent = `Original: ${w.exercise}`;
+    document.getElementById('orig-date').textContent     = `Original: ${w.date}`;
+    document.getElementById('orig-duration').textContent = `Original: ${w.duration} min`;
+    // Hide success message if re-selecting
+    document.getElementById('success-msg').style.display = 'none';
+  }
+
+  // Save changes to localStorage via WorkoutController
+  function submitUpdate(ev) {
+    ev.preventDefault();
+    if (!currentId) return;
+    const updated = WorkoutController.handleUpdate(currentId, document.getElementById('edit-form'));
+    if (updated) {
+      const msg = document.getElementById('success-msg');
+      msg.style.display = 'flex';
+      msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+
+  // Initialize
+  populateSelect();
+
+  // If arriving from read.html with ?id=X, auto-select that entry
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('id')) {
+    const id = params.get('id');
+    document.getElementById('entry-select').value = id;
+    loadEntry(id);
+  }
+</script>
+</body>
+</html>

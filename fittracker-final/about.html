@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitTracker &#8212; About Us</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .team-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px; margin-top: 40px;
+    }
+    .team-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 32px 28px; text-align: center; transition: all .25s;
+    }
+    .team-card:hover { border-color: var(--green-dim); transform: translateY(-4px); box-shadow: var(--glow); }
+    .avatar {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: rgba(0,230,118,.12); border: 2px solid rgba(0,230,118,.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; margin: 0 auto 16px;
+    }
+    .team-name  { color: var(--white); font-size: 1.1rem; margin-bottom: 4px; font-family: 'Manrope', sans-serif; font-weight: 700; }
+    .team-role  { color: var(--green); font-size: 0.78rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; }
+    .team-contrib { font-size: 0.85rem; line-height: 1.6; }
+    .erd-wrapper {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 32px; overflow-x: auto;
+    }
+    .tech-chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 14px; border-radius: 999px;
+      background: var(--bg2); border: 1px solid var(--border);
+      font-size: 0.8rem; font-weight: 600; color: var(--muted); margin: 4px;
+    }
+    .gh-link {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px 24px;
+      color: var(--white); font-weight: 700; transition: all .25s;
+    }
+    .gh-link:hover { border-color: var(--green); color: var(--green); box-shadow: var(--glow); }
+    .api-box {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-left: 3px solid var(--green); border-radius: 8px; padding: 16px 20px;
+      margin-bottom: 12px; font-size: 0.85rem;
+    }
+    .api-box code { color: var(--green); font-family: monospace; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a class="nav-brand" href="index.html">&#9889; FIT<span>TRACKER</span></a>
+  <button class="hamburger" onclick="toggleNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="visualizations.html">Analytics</a></li>
+    <li><a href="exercises.html">Exercise Library</a></li>
+    <li><a href="create.html">Log Workout</a></li>
+    <li><a href="read.html">My Log</a></li>
+    <li><a href="mybot.html">AI Coach</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <p class="section-tag">About</p>
+  <h2>Meet the Team</h2>
+  <p>ISM 6225 &#8212; Application Development for Analytics &#183; University of South Florida</p>
+</div>
+
+<div class="section">
+
+  <!-- ========== TEAM MEMBERS ========== -->
+  <!-- UPDATE THESE WITH YOUR REAL TEAM MEMBER NAMES AND ROLES -->
+  <div class="team-grid">
+
+    <div class="team-card">
+      <div class="avatar">&#128187;</div>
+      <div class="team-name">Amer Amer</div>
+      <div class="team-role">Front End & Full Stack Developer</div>
+      <p class="team-contrib">Designed and built the complete FitTracker application, including the MVC JavaScript architecture, localStorage CRUD operations, wger API integration, Exercise Library page, and the dark athletic theme using HTML5, CSS3, and JavaScript.</p>
+    </div>
+
+    <!-- TEAMMATE 2 -- Update name, role, and contribution below -->
+    <div class="team-card">
+      <div class="avatar">&#128202;</div>
+      <div class="team-name">[Team Member Name]</div>
+      <div class="team-role">[Role Title]</div>
+      <p class="team-contrib">[Describe this team member's contributions to the project: what pages, features, or documentation they worked on.]</p>
+    </div>
+
+    <!-- TEAMMATE 3 -- Update name, role, and contribution below -->
+    <div class="team-card">
+      <div class="avatar">&#127757;</div>
+      <div class="team-name">[Team Member Name]</div>
+      <div class="team-role">[Role Title]</div>
+      <p class="team-contrib">[Describe this team member's contributions to the project: what pages, features, or documentation they worked on.]</p>
+    </div>
+
+    <!-- TEAMMATE 4 -- Update name, role, and contribution below -->
+    <div class="team-card">
+      <div class="avatar">&#127942;</div>
+      <div class="team-name">[Team Member Name]</div>
+      <div class="team-role">[Role Title]</div>
+      <p class="team-contrib">[Describe this team member's contributions to the project: what pages, features, or documentation they worked on.]</p>
+    </div>
+
+  </div>
+
+  <hr class="divider" />
+
+  <!-- ========== ABOUT THE PROJECT ========== -->
+  <p class="section-tag">The Project</p>
+  <h2>About FitTracker</h2>
+  <span class="accent-bar"></span>
+
+  <div class="grid-2" style="margin-top:8px;">
+    <div>
+      <p style="font-size:0.95rem; line-height:1.8; margin-bottom:16px;">
+        FitTracker is a fully functional fitness analytics web application developed for ISM 6225 &#8212; Application Development for Analytics at the University of South Florida. The platform enables users to log workout sessions using full CRUD operations backed by localStorage, visualize progress through interactive Chart.js dashboards, browse exercises fetched live from an external REST API, and receive personalized guidance through an AI-powered chatbot.
+      </p>
+      <p style="font-size:0.95rem; line-height:1.8; margin-bottom:24px;">
+        The application follows a JavaScript MVC architecture: <strong style="color:var(--white);">Models</strong> (localStorage via storage.js), <strong style="color:var(--white);">Views</strong> (HTML pages), and <strong style="color:var(--white);">Controllers</strong> (workoutController.js and apiController.js). All data persists across browser sessions using the Web Storage API.
+      </p>
+      <a href="https://github.com/Ameramer2003/fittracker-ism6225.git" target="_blank" class="gh-link">
+        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.726-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.085 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.93 0-1.31.468-2.382 1.236-3.222-.124-.303-.536-1.524.117-3.176 0 0 1.008-.322 3.3 1.23A11.51 11.51 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.29-1.552 3.297-1.23 3.297-1.23.655 1.652.243 2.873.12 3.176.77.84 1.233 1.912 1.233 3.222 0 4.61-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.604-.015 2.896-.015 3.286 0 .319.216.694.825.576C20.565 21.797 24 17.298 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub Repository &#8594;
+      </a>
+    </div>
+    <div>
+      <div class="card">
+        <h3 style="color:var(--white); font-size:1rem; margin-bottom:16px;">Tech Stack</h3>
+        <div>
+          <span class="tech-chip">&#127760; HTML5</span>
+          <span class="tech-chip">&#127912; CSS3</span>
+          <span class="tech-chip">&#9889; JavaScript (ES6+)</span>
+          <span class="tech-chip">&#128202; Chart.js 4.4</span>
+          <span class="tech-chip">&#129302; Botpress</span>
+          <span class="tech-chip">&#128190; localStorage API</span>
+          <span class="tech-chip">&#127760; wger REST API</span>
+          <span class="tech-chip">&#128025; GitHub</span>
+          <span class="tech-chip">&#9729;&#65039; Azure Static Web Apps</span>
+        </div>
+        <hr class="divider" style="margin:20px 0;" />
+        <h3 style="color:var(--white); font-size:1rem; margin-bottom:12px;">Live Deployment</h3>
+        <!-- UPDATE this URL once deployed to Azure -->
+        <p style="font-size:0.85rem; margin-bottom:8px;">&#9729;&#65039; Azure Static Web Apps:</p>
+        <a href="#" style="font-size:0.82rem; color:var(--green);">[INSERT AZURE URL HERE]</a>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- ========== API INTEGRATION ========== -->
+  <p class="section-tag">API Integration</p>
+  <h2>External API: wger REST API</h2>
+  <span class="accent-bar"></span>
+  <p style="margin-bottom:24px; max-width:640px;">The Exercise Library page fetches live data from the wger REST API &#8212; a free, open-source fitness API with no authentication required.</p>
+
+  <div class="api-box">
+    <strong style="color:var(--white);">Base URL:</strong><br>
+    <code>https://wger.de/api/v2/</code>
+  </div>
+  <div class="api-box">
+    <strong style="color:var(--white);">Endpoints Used:</strong><br>
+    <code>GET /exercisecategory/?format=json</code> &#8212; Fetches all muscle group categories<br>
+    <code>GET /exerciseinfo/?format=json&amp;language=2&amp;limit=20</code> &#8212; Fetches exercises with English names, muscles, and equipment
+  </div>
+  <div class="api-box">
+    <strong style="color:var(--white);">Implementation:</strong><br>
+    Calls are made using the browser's native <code>fetch()</code> API in <code>js/apiController.js</code>. Responses are normalized and rendered as cards on <code>exercises.html</code>. Results support category filtering and text search. Any exercise can be added to the workout log via URL parameters passed to <code>create.html</code>.
+  </div>
+
+  <hr class="divider" />
+
+  <!-- ========== MVC ARCHITECTURE ========== -->
+  <p class="section-tag">Architecture</p>
+  <h2>JavaScript MVC Pattern</h2>
+  <span class="accent-bar"></span>
+  <div class="card" style="margin-top:24px;">
+    <div class="grid-3">
+      <div>
+        <h3 style="color:var(--green); font-family:'Manrope',sans-serif; font-size:0.9rem; letter-spacing:2px; margin-bottom:8px;">MODEL</h3>
+        <p style="font-size:0.85rem; line-height:1.7;"><code style="color:var(--green);">js/storage.js</code> manages all data. The <code>FitStorage</code> singleton reads and writes to <code>localStorage</code>, handles seed data initialization, and provides computed stats and chart-ready weekly/category breakdowns.</p>
+      </div>
+      <div>
+        <h3 style="color:var(--orange); font-family:'Manrope',sans-serif; font-size:0.9rem; letter-spacing:2px; margin-bottom:8px;">VIEW</h3>
+        <p style="font-size:0.85rem; line-height:1.7;">Each HTML page is a View. Pages are responsible only for rendering data and capturing user input. They delegate data logic to the controllers and never access localStorage directly.</p>
+      </div>
+      <div>
+        <h3 style="color:#64b4ff; font-family:'Manrope',sans-serif; font-size:0.9rem; letter-spacing:2px; margin-bottom:8px;">CONTROLLER</h3>
+        <p style="font-size:0.85rem; line-height:1.7;"><code style="color:var(--green);">js/workoutController.js</code> handles CRUD business logic. <code style="color:var(--green);">js/apiController.js</code> manages external API calls. Controllers are the only bridge between Views and the Model.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- ========== ERD ========== -->
+  <p class="section-tag">Data Architecture</p>
+  <h2>Logical Data Model (ERD)</h2>
+  <span class="accent-bar"></span>
+  <p style="margin-bottom:32px; max-width:600px;">Three-entity normalized structure: <strong style="color:var(--white);">Users &#8594; Workouts</strong> and <strong style="color:var(--white);">Workouts &#8594; Exercises</strong> (one-to-many relationships).</p>
+
+  <div class="erd-wrapper">
+    <svg viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg" style="width:100%; max-width:900px; display:block; margin:0 auto;">
+      <defs>
+        <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+          <polygon points="0 0, 10 3.5, 0 7" fill="#00e676"/>
+        </marker>
+      </defs>
+      <rect width="900" height="420" fill="#131917" rx="12"/>
+      <!-- USERS -->
+      <rect x="30" y="60" width="230" height="290" fill="#1a211e" stroke="#2a3530" stroke-width="1.5" rx="8"/>
+      <rect x="30" y="60" width="230" height="44" fill="#00e676" rx="8"/>
+      <rect x="30" y="96" width="230" height="12" fill="#00e676"/>
+      <text x="145" y="88" text-anchor="middle" fill="#000" font-family="'Bebas Neue',sans-serif" font-size="16" letter-spacing="2">USERS</text>
+      <line x1="30" y1="120" x2="260" y2="120" stroke="#2a3530" stroke-width="1"/>
+      <text x="50" y="139" fill="#f0faf4" font-family="Manrope,sans-serif" font-size="12" font-weight="700">&#128273;  UserID</text>
+      <text x="230" y="139" text-anchor="end" fill="#00e676" font-family="Manrope,sans-serif" font-size="10">PK</text>
+      <line x1="30" y1="150" x2="260" y2="150" stroke="#2a3530" stroke-width="1"/>
+      <text x="50" y="169" fill="#7a9187" font-family="Manrope,sans-serif" font-size="12">FirstName</text>
+      <text x="230" y="169" text-anchor="end" fill="#7a9187" font-family="Manrope,sans-serif" font-size="10">VARCHAR</text>
+      <line x1="30" y1="180" x2="260" y2="180" stroke="#2a3530" stroke-width="1"/>
+      <text x="50" y="199" fill="#7a9187" font-family="Manrope,sans-serif" font-size="12">LastName</text>
+      <text x="230" y="199" text-anchor="end" fill="#7a9187" font-family="Manrope,sans-serif" font-size="10">VARCHAR</text>
+      <line x1="30" y1="210" x2="260" y2="210" stroke="#2a3530" stroke-width="1"/>
+      <text x="50" y="229" fill="#7a9187" font-family="Manrope,sans-serif" font-size="12">Email</text>
+      <text x="230" y="229" text-anchor="end" fill="#7a9187" font-family="Manrope,sans-serif" font-size="10">VARCHAR</text>
+      <line x1="30" y1="240" x2="260" y2="240" stroke="#2a3530" stroke-width="1"/>
+      <text x="50" y="259" fill="#7a9187" font-family="Manrope,sans-serif" font-size="12">Age</text>
+      <text x="230" y="259" text-anchor="end" fill="#7a9187" font-family="Manrope,sans-serif" font-size="10">INT</text>
+      <line x1="30" y1="270" x2="260" y2="270" stroke="#2a3530" stroke-width="1"/>
+      <text x="50" y="289" fill="#7a9187" font-family="Manrope,sans-serif" font-size="12">WeightLbs</text>
+      <text x="230" y="289" text-anchor="end" fill="#7a9187" font-family="Manrope,sans-serif" font-size="10">DECIMAL</text>
+      <line x1="30" y1="300" x2="260" y2="300" stroke="#2a3530" stroke-width="1"/>
+      <text x="50" y="319" fill="#7a9187" font-family="Manrope,sans-serif" font-size="12">HeightIn</text>
+      <text x="230" y="319" text-anchor="end" fill="#7a9187" font-family="Manrope,sans-serif" font-size="10">DECIMAL</text>
+      <!-- WORKOUTS -->
+      <rect x="335" y="60" width="240" height="320" fill="#1a211e" stroke="#2a3530" stroke-width="1.5" rx="8"/>
+      <rect x="335" y="60" width="240" height="44" fill="#00e676" rx="8"/>
+      <rect x="335" y="96" width="240" height="12" fill="#00e676"/>
+      <text x="455" y="88" text-anchor="middle" fill="#000" font-family="'Bebas Neue',sans-serif" font-size="16" letter-spacing="2">WORKOUTS</text>
+      <line x1="335" y1="120" x2="575" y2="120" stroke="#2a3530" stroke-width="1"/>
+      <text x="355" y="139" fill="#f0faf4" font-family="Manrope,sans-serif" font-size="12" font-weight="700">&#128273;  WorkoutID</text>
+      <text x="555" y="139" text-anchor="end" fill="#00e676" font-family="Manrope,sans-serif" font-size="10">PK</text>
+      <line x1="335" y1="150" x2="575" y2="150" stroke="#2a3530" stroke-width="1"/>
+      <text x="355" y="169" fill="#ff6b35" font-family="Manrope,sans-serif" font-size="12">&#128279;  UserID</text>
+      <text x="555" y="169" text-anchor="end" fill="#ff6b35" font-family="Manrope,sans-serif" font-size="10">FK -&gt; Users</text>
+      <line x1="335" y1="180" x2="575" y2="180" stroke="#2a3530" stroke-width="1"/>
+      <text x="355" y="199" fill="#7a9187" font-family="Manrope,sans-serif" font-size="12">WorkoutDate</text>
+      <text x="555" y="199" text-anchor="end" fill="#7a9187" font-family="Manrope,sans-serif" font-size="10">DATE</text>
+      <line x1="335" y1="210" x2="575" y2="210" stroke="#2a3530" stroke-width="1"/>
+      <text x="355" y="229" fill="#7a9187" font-family="Manrope,sans-serif" font-size="12">DurationMin</text>
+      <text x="555" y="229" text-anchor="end" fill="#7a9187" font-family="Manrope,sans-serif" font-size="10">INT</text>
+      <line x1="335" y1="240" x2="575" y2="240" stroke="#2a3530" stroke-width="1"/>
+      <text x="355" y="259" fill="#7a9187" font-family="Manrope,sans-serif" font-size="12">TotalCalories</text>
+      <text x="555" y="259" text-anchor="end" fill="#7a9187" font-family="Manrope,sans-serif" font-size="10">INT</text>
+      <line x1="335" y1="270" x2="575" y2="270" stroke="#2a3530" stroke-width="1"/>
+      <text x="355" y="289" fill="#7a9187" font-family="Manrope,sans-serif" font-size="12">Notes</text>
+      <text x="555" y="289" text-anchor="end" fill="#7a9187" font-family="Manrope,sans-serif" font-size="10">TEXT</text>
+      <line x1="335" y1="300" x2="575" y2="300" stroke="#2a3530" stroke-width="1"/>
+      <text x="355" y="319" fill="#7a9187" font-family="Manrope,sans-serif" font-size="12">CreatedAt</text>
+      <text x="555" y="319" text-anchor="end" fill="#7a9187" font-family="Manrope,sans-serif" font-size="10">DATETIME</text>
+      <!-- EXERCISES -->
+      <rect x="640" y="60" width="235" height="350" fill="#1a211e" stroke="#2a3530" stroke-width="1.5" rx="8"/>
+      <rect x="640" y="60" width="235" height="44" fill="#00e676" rx="8"/>
+      <rect x="640" y="96" width="235" height="12" fill="#00e676"/>
+      <text x="757" y="88" text-anchor="middle" fill="#000" font-family="'Bebas Neue',sans-serif" font-size="16" letter-spacing="2">EXERCISES</text>
+      <line x1="640" y1="120" x2="875" y2="120" stroke="#2a3530" stroke-width="1"/>
+      <text x="660" y="139" fill="#f0faf4" font-family="Manrope,sans-serif" font-size="12" font-weight="700">&#128273;  ExerciseID</text>
+      <text x="855" y="139" text-anchor="end" fill="#00e676" font-family="Manrope,sans-serif" font-size="10">PK</text>
+      <line x1="640" y1="150" x2="875" y2="150" stroke="#2a3530" stroke-width="1"/>
+      <text x="660" y="169" fill="#ff6b35" font-family="Manrope,sans-serif" font-size="12">&#128279;  WorkoutID</text>
+      <text x="855" y="169" text-anchor="end" fill="#ff6b35" font-family="Manrope,sans-serif" font-size="10">FK -&gt; Workouts</text>
+      <line x1="640" y1="180" x2="875" y2="180" stroke="#2a3530" stroke-width="1"/>
+      <text x="660" y="199" fill="#7a9187" font-family="Manrope,sans-serif" font-size="12">ExerciseName</text>
+      <text x="855" y="199" text-anchor="end" fill="#7a9187" font-family="Manrope,sans-serif" font-size="10">VARCHAR</text>
+      <line x1="640" y1="210" x2="875" y2="210" stroke="#2a3530" stroke-width="1"/>
+      <text x="660" y="229" fill="#7a9187" font-family="Manrope,sans-serif" font-size="12">Category</text>
+      <text x="855" y="229" text-anchor="end" fill="#7a9187" font-family="Manrope,sans-serif" font-size="10">VARCHAR</text>
+      <line x1="640" y1="240" x2="875" y2="240" stroke="#2a3530" stroke-width="1"/>
+      <text x="660" y="259" fill="#7a9187" font-family="Manrope,sans-serif" font-size="12">Sets</text>
+      <text x="855" y="259" text-anchor="end" fill="#7a9187" font-family="Manrope,sans-serif" font-size="10">INT</text>
+      <line x1="640" y1="270" x2="875" y2="270" stroke="#2a3530" stroke-width="1"/>
+      <text x="660" y="289" fill="#7a9187" font-family="Manrope,sans-serif" font-size="12">Reps</text>
+      <text x="855" y="289" text-anchor="end" fill="#7a9187" font-family="Manrope,sans-serif" font-size="10">INT</text>
+      <line x1="640" y1="300" x2="875" y2="300" stroke="#2a3530" stroke-width="1"/>
+      <text x="660" y="319" fill="#7a9187" font-family="Manrope,sans-serif" font-size="12">WeightLbs</text>
+      <text x="855" y="319" text-anchor="end" fill="#7a9187" font-family="Manrope,sans-serif" font-size="10">DECIMAL</text>
+      <line x1="640" y1="330" x2="875" y2="330" stroke="#2a3530" stroke-width="1"/>
+      <text x="660" y="349" fill="#7a9187" font-family="Manrope,sans-serif" font-size="12">CaloriesBurned</text>
+      <text x="855" y="349" text-anchor="end" fill="#7a9187" font-family="Manrope,sans-serif" font-size="10">INT</text>
+      <line x1="640" y1="360" x2="875" y2="360" stroke="#2a3530" stroke-width="1"/>
+      <text x="660" y="379" fill="#7a9187" font-family="Manrope,sans-serif" font-size="12">Equipment</text>
+      <text x="855" y="379" text-anchor="end" fill="#7a9187" font-family="Manrope,sans-serif" font-size="10">VARCHAR</text>
+      <!-- Relationship arrows -->
+      <line x1="260" y1="165" x2="335" y2="165" stroke="#00e676" stroke-width="2" marker-end="url(#arrow)"/>
+      <line x1="260" y1="158" x2="260" y2="172" stroke="#00e676" stroke-width="2"/>
+      <text x="295" y="158" text-anchor="middle" fill="#00e676" font-family="Manrope,sans-serif" font-size="10" font-weight="700">1 : MANY</text>
+      <line x1="575" y1="165" x2="640" y2="165" stroke="#00e676" stroke-width="2" marker-end="url(#arrow)"/>
+      <line x1="575" y1="158" x2="575" y2="172" stroke="#00e676" stroke-width="2"/>
+      <text x="607" y="158" text-anchor="middle" fill="#00e676" font-family="Manrope,sans-serif" font-size="10" font-weight="700">1 : MANY</text>
+      <!-- Legend -->
+      <circle cx="48" cy="395" r="5" fill="#00e676"/>
+      <text x="60" y="399" fill="#7a9187" font-family="Manrope,sans-serif" font-size="11">PK = Primary Key</text>
+      <circle cx="190" cy="395" r="5" fill="#ff6b35"/>
+      <text x="202" y="399" fill="#7a9187" font-family="Manrope,sans-serif" font-size="11">FK = Foreign Key</text>
+      <text x="500" y="399" fill="#7a9187" font-family="Manrope,sans-serif" font-size="11">One User -&gt; Many Workouts | One Workout -&gt; Many Exercises</text>
+    </svg>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- ========== GITHUB ========== -->
+  <p class="section-tag">Source Code</p>
+  <h2>GitHub Repository</h2>
+  <span class="accent-bar"></span>
+  <p style="margin-bottom:24px;">All project files are version-controlled on GitHub.</p>
+  <a href="https://github.com/Ameramer2003/fittracker-ism6225.git" target="_blank" class="gh-link">
+    <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.726-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.085 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.93 0-1.31.468-2.382 1.236-3.222-.124-.303-.536-1.524.117-3.176 0 0 1.008-.322 3.3 1.23A11.51 11.51 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.29-1.552 3.297-1.23 3.297-1.23.655 1.652.243 2.873.12 3.176.77.84 1.233 1.912 1.233 3.222 0 4.61-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.604-.015 2.896-.015 3.286 0 .319.216.694.825.576C20.565 21.797 24 17.298 24 12c0-6.63-5.37-12-12-12z"/></svg>
+    github.com/Ameramer2003/fittracker-ism6225
+  </a>
+
+</div>
+
+<footer>
+  <p>&#9889; <strong>FitTracker</strong> &#8212; ISM 6225 Application Development for Analytics &nbsp;&#183;&nbsp; University of South Florida</p>
+</footer>
+
+<script>
+  function toggleNav() { document.getElementById('nav-links').classList.toggle('open'); }
+</script>
+</body>
+</html>

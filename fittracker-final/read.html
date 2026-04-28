@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitTracker &#8212; My Workout Log</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .search-bar { display: flex; gap: 12px; margin-bottom: 28px; flex-wrap: wrap; }
+    .search-bar input { flex: 1; min-width: 200px; }
+    .table-wrapper {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow-x: auto;
+    }
+    .action-btn {
+      padding: 6px 14px; border-radius: 6px; font-size: 0.78rem;
+      font-weight: 700; cursor: pointer; border: none; transition: all .2s;
+      text-decoration: none; display: inline-block;
+    }
+    .action-edit {
+      background: rgba(255,107,53,.12); color: var(--orange);
+      border: 1px solid rgba(255,107,53,.3);
+    }
+    .action-edit:hover { background: var(--orange); color: #fff; }
+    .action-del {
+      background: rgba(255,77,77,.12); color: var(--danger);
+      border: 1px solid rgba(255,77,77,.3); margin-left: 6px;
+    }
+    .action-del:hover { background: var(--danger); color: #fff; }
+    .table-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 20px; border-top: 1px solid var(--border); flex-wrap: wrap; gap: 10px;
+    }
+    .page-info { font-size: 0.82rem; color: var(--muted); }
+    .empty-row td {
+      text-align: center; padding: 48px 20px;
+      color: var(--muted); font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a class="nav-brand" href="index.html">&#9889; FIT<span>TRACKER</span></a>
+  <button class="hamburger" onclick="toggleNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="visualizations.html">Analytics</a></li>
+    <li><a href="exercises.html">Exercise Library</a></li>
+    <li><a href="create.html">Log Workout</a></li>
+    <li><a href="read.html" class="active">My Log</a></li>
+    <li><a href="mybot.html">AI Coach</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <span class="pill" style="background:rgba(100,180,255,.15); color:#64b4ff; border:1px solid rgba(100,180,255,.3);">READ</span>
+  <h2 style="margin-top:12px;">My Workout Log</h2>
+  <p>All entries are loaded live from localStorage. Use search and filter to find specific sessions.</p>
+</div>
+
+<div class="section">
+
+  <!-- Search & Filter -->
+  <div class="search-bar">
+    <input type="text" class="form-control" id="search-input" placeholder="&#128269;  Search by exercise, category, notes..." oninput="applyFilters()" />
+    <select class="form-control" id="cat-filter" style="max-width:180px;" onchange="applyFilters()">
+      <option value="">All Categories</option>
+      <option>Chest</option><option>Back</option><option>Legs</option>
+      <option>Shoulders</option><option>Arms</option><option>Core</option>
+      <option>Cardio</option><option>Full Body</option>
+    </select>
+    <a href="create.html" class="btn btn-primary">&#10133; Log New</a>
+  </div>
+
+  <!-- Dynamic Stats -->
+  <div class="grid-4" style="margin-bottom:28px;">
+    <div class="card stat-box">
+      <div class="stat-num" id="st-count">0</div>
+      <div class="stat-label">Entries Shown</div>
+    </div>
+    <div class="card stat-box">
+      <div class="stat-num" id="st-cal">0</div>
+      <div class="stat-label">Total Calories</div>
+    </div>
+    <div class="card stat-box">
+      <div class="stat-num" id="st-sets">0</div>
+      <div class="stat-label">Total Sets</div>
+    </div>
+    <div class="card stat-box">
+      <div class="stat-num" id="st-cats">0</div>
+      <div class="stat-label">Categories</div>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrapper">
+    <table class="data-table" id="log-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Date</th>
+          <th>Exercise</th>
+          <th>Category</th>
+          <th>Sets</th>
+          <th>Reps</th>
+          <th>Weight (lbs)</th>
+          <th>Calories</th>
+          <th>Duration</th>
+          <th>Difficulty</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="log-body"></tbody>
+    </table>
+    <div class="table-footer">
+      <span class="page-info" id="page-info"></span>
+      <a href="create.html" class="btn btn-primary" style="padding:8px 18px; font-size:0.82rem;">&#10133; Add New Workout</a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>&#9889; <strong>FitTracker</strong> &#8212; ISM 6225 Application Development for Analytics &nbsp;&#183;&nbsp; University of South Florida</p>
+</footer>
+
+<script src="js/storage.js"></script>
+<script src="js/workoutController.js"></script>
+<script>
+  function toggleNav() { document.getElementById('nav-links').classList.toggle('open'); }
+
+  FitStorage.init();
+
+  const diffColor = { 'Beginner': 'green', 'Intermediate': 'orange', 'Advanced': 'red' };
+
+  function renderTable(data) {
+    const tbody = document.getElementById('log-body');
+    if (data.length === 0) {
+      tbody.innerHTML = `<tr class="empty-row"><td colspan="11">&#128269; No workouts found. <a href="create.html">Log your first workout &#8594;</a></td></tr>`;
+      return;
+    }
+    tbody.innerHTML = data.map((w, i) => `
+      <tr>
+        <td style="color:var(--muted);">${i + 1}</td>
+        <td>${w.date}</td>
+        <td style="color:var(--white); font-weight:600;">${w.exercise}</td>
+        <td>${w.category}</td>
+        <td>${w.sets}</td>
+        <td>${w.reps}</td>
+        <td>${w.weight === 0 ? '<span style="color:var(--muted);">BW</span>' : w.weight + ' lbs'}</td>
+        <td style="color:var(--green);">${w.calories}</td>
+        <td>${w.duration} min</td>
+        <td><span class="pill pill-${diffColor[w.difficulty] || 'green'}">${w.difficulty}</span></td>
+        <td>
+          <a href="update.html?id=${w.id}" class="action-btn action-edit">&#9999;&#65039; Edit</a>
+          <a href="delete.html?id=${w.id}" class="action-btn action-del">&#128465;&#65039;</a>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  function updateStats(data) {
+    const cal  = data.reduce((s, w) => s + (parseInt(w.calories) || 0), 0);
+    const sets = data.reduce((s, w) => s + (parseInt(w.sets)     || 0), 0);
+    const cats = new Set(data.map(w => w.category)).size;
+    document.getElementById('st-count').textContent = data.length;
+    document.getElementById('st-cal').textContent   = cal.toLocaleString();
+    document.getElementById('st-sets').textContent  = sets;
+    document.getElementById('st-cats').textContent  = cats;
+    document.getElementById('page-info').textContent = `Showing ${data.length} of ${FitStorage.getAll().length} entries`;
+  }
+
+  function applyFilters() {
+    const q   = document.getElementById('search-input').value;
+    const cat = document.getElementById('cat-filter').value;
+    const filtered = WorkoutController.getFiltered(q, cat);
+    renderTable(filtered);
+    updateStats(filtered);
+  }
+
+  // Initial render
+  applyFilters();
+</script>
+</body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitTracker &#8212; Analytics</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    .chart-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 28px;
+    }
+    .chart-card h3 { font-size: 1rem; letter-spacing: 1.5px; color: var(--white); margin-bottom: 4px; }
+    .chart-subtitle { font-size: 0.82rem; color: var(--muted); margin-bottom: 24px; }
+    canvas { display: block; }
+    .filter-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 32px; }
+    .filter-btn {
+      padding: 8px 18px; border-radius: 999px; border: 1px solid var(--border);
+      background: var(--card); color: var(--muted);
+      font-family: 'Manrope', sans-serif; font-size: 0.8rem; font-weight: 600;
+      cursor: pointer; transition: all .2s;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      border-color: var(--green); color: var(--green); background: rgba(0,230,118,.08);
+    }
+    .insight-strip {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px; margin-top: 48px;
+    }
+    .insight-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px 18px;
+    }
+    .insight-val {
+      font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem;
+      letter-spacing: 2px; color: var(--green);
+    }
+    .insight-label { font-size: 0.78rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+    .insight-change { font-size: 0.78rem; color: var(--green); margin-top: 6px; }
+    .data-note {
+      font-size: 0.78rem; color: var(--muted); text-align: right;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a class="nav-brand" href="index.html">&#9889; FIT<span>TRACKER</span></a>
+  <button class="hamburger" onclick="toggleNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="visualizations.html" class="active">Analytics</a></li>
+    <li><a href="exercises.html">Exercise Library</a></li>
+    <li><a href="create.html">Log Workout</a></li>
+    <li><a href="read.html">My Log</a></li>
+    <li><a href="mybot.html">AI Coach</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <p class="section-tag">Data Visualization</p>
+  <h2>Your Performance Analytics</h2>
+  <p>Charts powered by <strong style="color:var(--white);">Chart.js</strong> and driven by your <strong style="color:var(--white);">real localStorage workout data</strong> &#8212; every chart updates as you log new sessions.</p>
+</div>
+
+<div class="section">
+
+  <p class="data-note">&#128202; All chart data is computed from your logged workouts in localStorage</p>
+
+  <!-- INSIGHT STRIP (dynamic) -->
+  <div class="insight-strip">
+    <div class="insight-card">
+      <div class="insight-val" id="ins-cal">&#8212;</div>
+      <div class="insight-label">Total Calories Burned</div>
+      <div class="insight-change" id="ins-cal-sub"></div>
+    </div>
+    <div class="insight-card">
+      <div class="insight-val" id="ins-count">&#8212;</div>
+      <div class="insight-label">Workouts Logged</div>
+      <div class="insight-change" id="ins-count-sub"></div>
+    </div>
+    <div class="insight-card">
+      <div class="insight-val" id="ins-avg-dur">&#8212;</div>
+      <div class="insight-label">Avg. Minutes / Session</div>
+      <div class="insight-change" id="ins-dur-sub"></div>
+    </div>
+    <div class="insight-card">
+      <div class="insight-val" id="ins-sets">&#8212;</div>
+      <div class="insight-label">Total Sets Completed</div>
+      <div class="insight-change" id="ins-sets-sub"></div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- CHART 1: Weekly Calories -->
+  <div class="chart-card" style="margin-bottom:28px;">
+    <h3>WEEKLY CALORIES BURNED</h3>
+    <div class="chart-subtitle">Bar chart &#183; Total calories from your logged workouts per week (last 8 weeks)</div>
+    <canvas id="caloriesChart" height="80"></canvas>
+  </div>
+
+  <!-- CHART 2: Duration Trend -->
+  <div class="chart-card" style="margin-bottom:28px;">
+    <h3>WORKOUT DURATION TREND</h3>
+    <div class="chart-subtitle">Line chart &#183; Average session duration (minutes) per week from your log</div>
+    <canvas id="durationChart" height="80"></canvas>
+  </div>
+
+  <!-- CHART 3: Category Mix -->
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:28px;">
+    <div class="chart-card">
+      <h3>EXERCISE CATEGORY MIX</h3>
+      <div class="chart-subtitle">Doughnut chart &#183; Breakdown by muscle group from your logged sessions</div>
+      <canvas id="categoryChart" height="220"></canvas>
+    </div>
+    <div class="chart-card">
+      <h3>CATEGORY BREAKDOWN</h3>
+      <div class="chart-subtitle">Percentages based on your logged session count</div>
+      <div id="legend-custom" style="margin-top:12px;"></div>
+      <div style="margin-top:24px;">
+        <a href="create.html" class="btn btn-primary" style="width:100%; justify-content:center;">&#10133; Log Next Workout</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>&#9889; <strong>FitTracker</strong> &#8212; ISM 6225 Application Development for Analytics &nbsp;&#183;&nbsp; University of South Florida</p>
+</footer>
+
+<script src="js/storage.js"></script>
+<script>
+  function toggleNav() { document.getElementById('nav-links').classList.toggle('open'); }
+
+  FitStorage.init();
+
+  // Chart.js globals
+  Chart.defaults.color = '#7a9187';
+  Chart.defaults.borderColor = '#2a3530';
+  Chart.defaults.font.family = 'Manrope';
+
+  const GREEN  = '#00e676';
+  const ORANGE = '#ff6b35';
+  const BLUE   = '#64b4ff';
+  const PURPLE = '#c47aff';
+  const YELLOW = '#ffd166';
+  const PINK   = '#ff6b9d';
+  const TEAL   = '#a0f0d0';
+  const PALETTE = [GREEN, BLUE, ORANGE, PURPLE, YELLOW, PINK, TEAL, '#ff9f43', '#ee5a24'];
+
+  // ---- Compute insight stats ----
+  const allWorkouts = FitStorage.getAll();
+  const totalCal  = allWorkouts.reduce((s, w) => s + (parseInt(w.calories)  || 0), 0);
+  const totalSets = allWorkouts.reduce((s, w) => s + (parseInt(w.sets)      || 0), 0);
+  const avgDur    = allWorkouts.length
+    ? Math.round(allWorkouts.reduce((s, w) => s + (parseInt(w.duration) || 0), 0) / allWorkouts.length)
+    : 0;
+  document.getElementById('ins-cal').textContent       = totalCal.toLocaleString();
+  document.getElementById('ins-count').textContent     = allWorkouts.length;
+  document.getElementById('ins-avg-dur').textContent   = avgDur;
+  document.getElementById('ins-sets').textContent      = totalSets;
+  document.getElementById('ins-cal-sub').textContent   = `From ${allWorkouts.length} logged sessions`;
+  document.getElementById('ins-count-sub').textContent = `${totalSets} total sets logged`;
+  document.getElementById('ins-dur-sub').textContent   = `Across all categories`;
+  document.getElementById('ins-sets-sub').textContent  = `Avg ${avgDur} min per session`;
+
+  // ---- Weekly data from storage ----
+  const weeklyData = FitStorage.getWeeklyData(8);
+  const weekLabels = weeklyData.map(w => w.label);
+  const weekCal    = weeklyData.map(w => w.calories);
+  const weekDur    = weeklyData.map(w => w.duration);
+
+  // ---- CHART 1: Calories (Bar) ----
+  const calCtx  = document.getElementById('caloriesChart').getContext('2d');
+  const calGrad = calCtx.createLinearGradient(0, 0, 0, 400);
+  calGrad.addColorStop(0, 'rgba(0,230,118,0.8)');
+  calGrad.addColorStop(1, 'rgba(0,230,118,0.1)');
+
+  new Chart(calCtx, {
+    type: 'bar',
+    data: {
+      labels: weekLabels,
+      datasets: [{
+        label: 'Calories Burned',
+        data: weekCal,
+        backgroundColor: calGrad,
+        borderColor: GREEN,
+        borderWidth: 1.5,
+        borderRadius: 6,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#1a211e', borderColor: '#2a3530', borderWidth: 1,
+          titleColor: '#f0faf4', bodyColor: '#7a9187', padding: 12,
+          callbacks: { label: ctx => `  ${ctx.parsed.y} kcal` }
+        }
+      },
+      scales: {
+        x: { grid: { display: false } },
+        y: { grid: { color: '#1f2b27' }, ticks: { callback: v => v + ' kcal' } }
+      }
+    }
+  });
+
+  // ---- CHART 2: Duration (Line) ----
+  const durCtx  = document.getElementById('durationChart').getContext('2d');
+  const durGrad = durCtx.createLinearGradient(0, 0, 0, 300);
+  durGrad.addColorStop(0, 'rgba(255,107,53,0.3)');
+  durGrad.addColorStop(1, 'rgba(255,107,53,0.0)');
+
+  new Chart(durCtx, {
+    type: 'line',
+    data: {
+      labels: weekLabels,
+      datasets: [{
+        label: 'Avg Duration (min)',
+        data: weekDur,
+        borderColor: ORANGE,
+        backgroundColor: durGrad,
+        borderWidth: 2.5,
+        pointBackgroundColor: ORANGE,
+        pointRadius: 5, pointHoverRadius: 8,
+        tension: 0.4, fill: true,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#1a211e', borderColor: '#2a3530', borderWidth: 1,
+          titleColor: '#f0faf4', bodyColor: '#7a9187', padding: 12,
+          callbacks: { label: ctx => `  ${ctx.parsed.y} minutes` }
+        }
+      },
+      scales: {
+        x: { grid: { display: false } },
+        y: { grid: { color: '#1f2b27' }, ticks: { callback: v => v + ' min' }, min: 0 }
+      }
+    }
+  });
+
+  // ---- CHART 3: Category Doughnut ----
+  const breakdown   = FitStorage.getCategoryBreakdown();
+  const catLabels   = breakdown.map(c => c.name);
+  const catCounts   = breakdown.map(c => c.count);
+  const catColors   = catLabels.map((_, i) => PALETTE[i % PALETTE.length]);
+
+  const catCtx = document.getElementById('categoryChart').getContext('2d');
+  new Chart(catCtx, {
+    type: 'doughnut',
+    data: {
+      labels: catLabels,
+      datasets: [{
+        data: catCounts,
+        backgroundColor: catColors.map(c => c + 'cc'),
+        borderColor: catColors,
+        borderWidth: 2,
+        hoverBorderWidth: 3,
+        hoverOffset: 8,
+      }]
+    },
+    options: {
+      responsive: true, cutout: '65%',
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#1a211e', borderColor: '#2a3530', borderWidth: 1,
+          titleColor: '#f0faf4', bodyColor: '#7a9187', padding: 12,
+          callbacks: { label: ctx => `  ${ctx.parsed} sessions` }
+        }
+      }
+    }
+  });
+
+  // Custom legend
+  const total     = catCounts.reduce((a, b) => a + b, 0);
+  const legendEl  = document.getElementById('legend-custom');
+  catLabels.forEach((cat, i) => {
+    const pct = total > 0 ? Math.round(catCounts[i] / total * 100) : 0;
+    legendEl.innerHTML += `
+      <div style="display:flex; align-items:center; justify-content:space-between; padding:8px 0; border-bottom:1px solid #2a3530;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span style="display:inline-block; width:12px; height:12px; border-radius:3px; background:${catColors[i]};"></span>
+          <span style="font-size:0.85rem; color:#f0faf4;">${cat}</span>
+        </div>
+        <span style="font-size:0.85rem; color:#7a9187;">${pct}% (${catCounts[i]})</span>
+      </div>`;
+  });
+
+  if (catLabels.length === 0) {
+    legendEl.innerHTML = '<p style="font-size:0.85rem; color:var(--muted);">No data yet. <a href="create.html">Log a workout &#8594;</a></p>';
+  }
+</script>
+</body>
+</html>
