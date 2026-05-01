@@ -9,9 +9,9 @@ A fully functional fitness analytics web application built for ISM 6225 at the U
 | Name | Role |
 |------|------|
 | Amer Amer | Front End and Full Stack Developer, MVC Architecture|
-| [Team Member Name] | [Role and contributions] |
+| Nairi Keeney | Testing and Delivery |
 | Nada Belafqih | Azure Deployment Support & Documentation |
-| [Team Member Name] | [Role and contributions] |
+| Ronald Berle | API Integration & Schema Design |
 
 **Course:** ISM 6225 — Application Development for Analytics  
 **University:** University of South Florida
