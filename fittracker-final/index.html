@@ -171,25 +171,25 @@
   <span class="accent-bar"></span>
 
   <div class="crud-row">
-    <div class="crud-card">
+    <div class="crud-card" style="--crud-accent:var(--green);">
       <div class="feature-icon" style="background:rgba(0,230,118,.1); border-color:rgba(0,230,118,.2);">&#10133;</div>
       <div class="crud-label" style="color:var(--green);">Create</div>
       <p>Log a new workout session &#8212; enter exercise, sets, reps, weight, and calories. Data saves instantly to localStorage.</p>
       <a href="create.html" class="btn btn-primary">Log Workout</a>
     </div>
-    <div class="crud-card">
+    <div class="crud-card" style="--crud-accent:#64b4ff;">
       <div class="feature-icon" style="background:rgba(100,180,255,.1); border-color:rgba(100,180,255,.2);">&#128065;&#65039;</div>
       <div class="crud-label" style="color:#64b4ff;">Read</div>
       <p>Browse your full workout history with live search, category filter, and sortable table. Loads directly from localStorage.</p>
       <a href="read.html" class="btn btn-outline" style="border-color:#64b4ff; color:#64b4ff;">View Log</a>
     </div>
-    <div class="crud-card">
+    <div class="crud-card" style="--crud-accent:var(--orange);">
       <div class="feature-icon" style="background:rgba(255,107,53,.1); border-color:rgba(255,107,53,.2);">&#9999;&#65039;</div>
       <div class="crud-label" style="color:var(--orange);">Update</div>
       <p>Select any existing workout entry to modify reps, weight, notes, or category. Changes persist immediately.</p>
       <a href="update.html" class="btn btn-orange">Edit Entry</a>
     </div>
-    <div class="crud-card">
+    <div class="crud-card" style="--crud-accent:var(--danger);">
       <div class="feature-icon" style="background:rgba(255,77,77,.1); border-color:rgba(255,77,77,.2);">&#128465;&#65039;</div>
       <div class="crud-label" style="color:var(--danger);">Delete</div>
       <p>Remove any workout entry with a type-to-confirm safety check. The entry is permanently removed from localStorage.</p>
@@ -206,13 +206,26 @@
 <script>
   function toggleNav() { document.getElementById('nav-links').classList.toggle('open'); }
 
-  // Initialize storage and update live stats
+  function animateCounter(el, target, duration) {
+    duration = duration || 900;
+    var startTime = performance.now();
+    var isLarge = target >= 1000;
+    function update(now) {
+      var p = Math.min((now - startTime) / duration, 1);
+      var eased = 1 - Math.pow(1 - p, 3);
+      var val = Math.round(target * eased);
+      el.textContent = isLarge ? val.toLocaleString() : val;
+      if (p < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  }
+
   FitStorage.init();
   const stats = FitStorage.getStats();
-  document.getElementById('stat-total').textContent = stats.total;
-  document.getElementById('stat-cal').textContent   = stats.totalCal.toLocaleString();
-  document.getElementById('stat-sets').textContent  = stats.totalSets;
-  document.getElementById('stat-cats').textContent  = stats.cats;
+  animateCounter(document.getElementById('stat-total'), stats.total);
+  animateCounter(document.getElementById('stat-cal'),   stats.totalCal);
+  animateCounter(document.getElementById('stat-sets'),  stats.totalSets);
+  animateCounter(document.getElementById('stat-cats'),  stats.cats);
 </script>
 </body>
 </html>

@@ -165,14 +165,16 @@ FitBot is built on **Botpress** and trained on a 10-row curated exercise dataset
 
 Three-tier normalized relational structure (logical model):
 
-```
-Users (UserID PK, FirstName, LastName, Email, Age, WeightLbs, HeightIn)
-  └── Workouts (WorkoutID PK, UserID FK, WorkoutDate, DurationMin, TotalCalories, Notes, CreatedAt)
-        └── Exercises (ExerciseID PK, WorkoutID FK, ExerciseName, Category, Sets, Reps, WeightLbs, CaloriesBurned, Equipment)
-```
+![ERD Diagram](images/erd.svg)
 
 - One **User** → Many **Workouts** (one-to-many)
 - One **Workout** → Many **Exercises** (one-to-many)
+
+| Entity | Key Fields |
+|--------|-----------|
+| Users | UserID (PK), FirstName, LastName, Email, Age, WeightLbs, HeightIn |
+| Workouts | WorkoutID (PK), UserID (FK), WorkoutDate, DurationMin, TotalCalories, Notes, CreatedAt |
+| Exercises | ExerciseID (PK), WorkoutID (FK), ExerciseName, Category, Sets, Reps, WeightLbs, CaloriesBurned, Equipment |
 
 ---
 

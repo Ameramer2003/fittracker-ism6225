@@ -50,6 +50,8 @@
 
 <div class="section">
 
+  <a href="read.html" class="back-link">Back to My Log</a>
+
   <div class="alert alert-success" id="success-msg" style="display:none; max-width:680px; margin:0 auto 28px;">
     <span>&#9989;</span>
     <div><strong>Entry updated successfully!</strong> Your workout record has been modified. <a href="read.html">Back to log &#8594;</a></div>
@@ -71,6 +73,7 @@
 
     <form id="edit-form" onsubmit="submitUpdate(event)">
 
+      <div class="form-section-label">Session Info</div>
       <div class="form-grid-2">
         <div class="form-group">
           <label class="form-label">Date</label>
@@ -84,67 +87,73 @@
         </div>
       </div>
 
-      <div class="form-group">
-        <label class="form-label">Exercise Name</label>
-        <input type="text" class="form-control" id="edit-exercise" />
-        <div class="original-value" id="orig-exercise"></div>
+      <div class="form-section">
+        <div class="form-section-label">Exercise</div>
+        <div class="form-group">
+          <label class="form-label">Exercise Name</label>
+          <input type="text" class="form-control" id="edit-exercise" />
+          <div class="original-value" id="orig-exercise"></div>
+        </div>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Category</label>
+            <select class="form-control" id="edit-category">
+              <option>Chest</option><option>Back</option><option>Legs</option>
+              <option>Shoulders</option><option>Arms</option><option>Core</option>
+              <option>Cardio</option><option>Full Body</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Difficulty</label>
+            <select class="form-control" id="edit-diff">
+              <option>Beginner</option><option>Intermediate</option><option>Advanced</option>
+            </select>
+          </div>
+        </div>
       </div>
 
-      <div class="form-grid-2">
+      <div class="form-section">
+        <div class="form-section-label">Performance</div>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Sets</label>
+            <input type="number" class="form-control" id="edit-sets" min="1" max="20" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Reps per Set</label>
+            <input type="number" class="form-control" id="edit-reps" min="1" max="100" />
+          </div>
+        </div>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Weight (lbs)</label>
+            <input type="number" class="form-control" id="edit-weight" min="0" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Calories Burned</label>
+            <input type="number" class="form-control" id="edit-cal" min="0" />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-label">Details</div>
         <div class="form-group">
-          <label class="form-label">Category</label>
-          <select class="form-control" id="edit-category">
-            <option>Chest</option><option>Back</option><option>Legs</option>
-            <option>Shoulders</option><option>Arms</option><option>Core</option>
-            <option>Cardio</option><option>Full Body</option>
+          <label class="form-label">Equipment Used</label>
+          <select class="form-control" id="edit-equipment">
+            <option value="">&#8212; Select &#8212;</option>
+            <option>Barbell</option><option>Dumbbell</option><option>Cable Machine</option>
+            <option>Resistance Band</option><option>Bodyweight</option>
+            <option>Kettlebell</option><option>Treadmill</option><option>Other</option>
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label">Difficulty</label>
-          <select class="form-control" id="edit-diff">
-            <option>Beginner</option><option>Intermediate</option><option>Advanced</option>
-          </select>
+          <label class="form-label">Notes</label>
+          <textarea class="form-control" id="edit-notes" rows="3" placeholder="Add notes..."></textarea>
         </div>
       </div>
 
-      <div class="form-grid-2">
-        <div class="form-group">
-          <label class="form-label">Sets</label>
-          <input type="number" class="form-control" id="edit-sets" min="1" max="20" />
-        </div>
-        <div class="form-group">
-          <label class="form-label">Reps per Set</label>
-          <input type="number" class="form-control" id="edit-reps" min="1" max="100" />
-        </div>
-      </div>
-
-      <div class="form-grid-2">
-        <div class="form-group">
-          <label class="form-label">Weight (lbs)</label>
-          <input type="number" class="form-control" id="edit-weight" min="0" />
-        </div>
-        <div class="form-group">
-          <label class="form-label">Calories Burned</label>
-          <input type="number" class="form-control" id="edit-cal" min="0" />
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Equipment Used</label>
-        <select class="form-control" id="edit-equipment">
-          <option value="">&#8212; Select &#8212;</option>
-          <option>Barbell</option><option>Dumbbell</option><option>Cable Machine</option>
-          <option>Resistance Band</option><option>Bodyweight</option>
-          <option>Kettlebell</option><option>Treadmill</option><option>Other</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Notes</label>
-        <textarea class="form-control" id="edit-notes" rows="3" placeholder="Add notes..."></textarea>
-      </div>
-
-      <div style="display:flex; gap:12px; justify-content:flex-end; margin-top:8px;">
+      <div style="display:flex; gap:12px; justify-content:flex-end; margin-top:24px; padding-top:20px; border-top:1px solid var(--border);">
         <a href="read.html" class="btn btn-outline">Cancel</a>
         <button type="submit" class="btn btn-orange">&#128190; Save Changes</button>
       </div>

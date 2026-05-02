@@ -64,6 +64,8 @@
 
 <div class="section">
 
+  <a href="index.html" class="back-link">Back to Home</a>
+
   <!-- Search & Filter -->
   <div class="search-bar">
     <input type="text" class="form-control" id="search-input" placeholder="&#128269;  Search by exercise, category, notes..." oninput="applyFilters()" />
@@ -140,7 +142,7 @@
   function renderTable(data) {
     const tbody = document.getElementById('log-body');
     if (data.length === 0) {
-      tbody.innerHTML = `<tr class="empty-row"><td colspan="11">&#128269; No workouts found. <a href="create.html">Log your first workout &#8594;</a></td></tr>`;
+      tbody.innerHTML = `<tr class="empty-row"><td colspan="11" style="padding:56px 20px;"><div style="font-size:2rem;margin-bottom:12px;">&#127947;&#65039;</div><div style="color:var(--white);font-weight:700;margin-bottom:8px;">No workouts found</div><div style="margin-bottom:20px;">Try clearing your filters or <a href="create.html" style="color:var(--green);">log your first workout</a>.</div></td></tr>`;
       return;
     }
     tbody.innerHTML = data.map((w, i) => `

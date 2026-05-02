@@ -526,3 +526,116 @@ footer strong { color: var(--green); }
 
 /* pill variants for blue */
 .pill-blue { background: rgba(100,180,255,.15); color: #64b4ff; border: 1px solid rgba(100,180,255,.3); }
+
+/* ============================================
+   FitTracker — Visual Polish & UX Enhancements
+   ============================================ */
+
+/* Page fade-in on load */
+body { animation: pageIn 0.35s ease both; }
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--green-dim); }
+
+/* Remove number input spinners */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+input[type="number"] { -moz-appearance: textfield; }
+
+/* Style date picker icon to match theme */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.6) sepia(1) saturate(3) hue-rotate(100deg);
+  cursor: pointer; opacity: 0.7; transition: opacity .2s;
+}
+input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
+
+/* Softer placeholder */
+::placeholder { color: var(--muted); opacity: 0.5; }
+
+/* Textarea */
+textarea.form-control { resize: vertical; min-height: 90px; }
+
+/* Form helper text */
+.form-hint { font-size: 0.75rem; color: var(--muted); margin-top: 6px; opacity: 0.75; line-height: 1.5; }
+.form-label .req { color: var(--green); }
+
+/* Page header subtle radial gradient */
+.page-header { position: relative; overflow: hidden; }
+.page-header::after {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 150% at 50% -10%, rgba(0,230,118,0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* Form section divider */
+.form-section { margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border); }
+.form-section-label {
+  font-size: 0.7rem; font-weight: 700; color: var(--green);
+  letter-spacing: 2.5px; text-transform: uppercase;
+  margin-bottom: 16px; display: flex; align-items: center; gap: 10px;
+}
+.form-section-label::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(90deg, rgba(0,230,118,0.25), transparent);
+}
+
+/* Back navigation link */
+.back-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 0.8rem; font-weight: 600; color: var(--muted);
+  margin-bottom: 20px; transition: color .2s;
+}
+.back-link::before { content: '←'; }
+.back-link:hover { color: var(--green); }
+
+/* Insight card hover lift */
+.insight-card { transition: box-shadow .2s, transform .2s; }
+.insight-card:hover { box-shadow: var(--glow); transform: translateY(-2px); }
+
+/* Delete confirm input danger focus */
+.input-danger:focus {
+  border-color: var(--danger) !important;
+  box-shadow: 0 0 0 3px rgba(255,77,77,0.1) !important;
+}
+
+/* CRUD card colored left accent on hover */
+.crud-card { position: relative; overflow: hidden; }
+.crud-card::before {
+  content: ''; position: absolute; top: 0; left: 0;
+  width: 3px; height: 100%; background: var(--crud-accent, var(--green));
+  opacity: 0; transition: opacity .25s;
+}
+.crud-card:hover::before { opacity: 1; }
+
+/* Table cell truncation */
+.data-table td {
+  max-width: 140px; overflow: hidden;
+  text-overflow: ellipsis; white-space: nowrap;
+}
+.data-table td:first-child,
+.data-table td:last-child { max-width: none; white-space: nowrap; }
+.data-table td:nth-child(3) { max-width: 200px; }
+
+/* Alert info — calm blue (replaces alarming warning on API pages) */
+.alert-info {
+  background: rgba(100,180,255,.08);
+  border: 1px solid rgba(100,180,255,.25);
+  color: #b8d8ff;
+}
+.alert-info code { color: #64b4ff; }
+.alert-info strong { color: var(--white); }
+
+/* Focus visible outline */
+:focus-visible { outline: 2px solid rgba(0,230,118,0.5); outline-offset: 3px; }
+
+/* Mobile: stack side-by-side chart grid to single column */
+@media (max-width: 768px) {
+  .chart-2col { grid-template-columns: 1fr !important; }
+}
