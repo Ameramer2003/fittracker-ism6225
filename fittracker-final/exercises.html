@@ -100,6 +100,9 @@
 <script src="js/apiController.js"></script>
 <script>
   function toggleNav() { document.getElementById('nav-links').classList.toggle('open'); }
+  document.querySelectorAll('.nav-links a').forEach(function(a) {
+    a.addEventListener('click', function() { document.getElementById('nav-links').classList.remove('open'); });
+  });
 
   // State
   let allExercises  = [];   // All exercises fetched so far

@@ -69,6 +69,10 @@
     .crud-card:hover { transform: translateY(-4px); box-shadow: var(--glow); border-color: var(--green-dim); }
     .crud-label { font-family: 'Bebas Neue', sans-serif; letter-spacing: 2px; font-size: 1.3rem; }
     .crud-card p { font-size: 0.85rem; flex: 1; }
+    @media (max-width: 480px) {
+      .crud-row { grid-template-columns: 1fr; }
+      .crud-card .btn { width: 100%; justify-content: center; }
+    }
   </style>
 </head>
 <body>
@@ -205,6 +209,9 @@
 <script src="js/storage.js"></script>
 <script>
   function toggleNav() { document.getElementById('nav-links').classList.toggle('open'); }
+  document.querySelectorAll('.nav-links a').forEach(function(a) {
+    a.addEventListener('click', function() { document.getElementById('nav-links').classList.remove('open'); });
+  });
 
   function animateCounter(el, target, duration) {
     duration = duration || 900;
