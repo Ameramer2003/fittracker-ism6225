@@ -20,7 +20,7 @@ A fully functional fitness analytics web application built for ISM 6225 at the U
 
 ## 🌐 Live Deployment
 
-**Azure Static Web Apps:** `[INSERT AZURE URL HERE]`  
+**Azure Static Web Apps:** https://happy-flower-03aa5891e.7.azurestaticapps.net/  
 **GitHub Repository:** https://github.com/Ameramer2003/fittracker-ism6225.git
 
 ---
@@ -247,7 +247,7 @@ Open `index.html` directly in a browser or use VS Code Live Server extension.
 | About Us Page | ✅ Team members, MVC explanation, ERD, API docs |
 | ERD | ✅ SVG entity-relationship diagram on About page |
 | GitHub README | ✅ This file |
-| Azure Deployment | ⏳ Deploy and update URL above |
+| Azure Deployment | ✅ Live at https://happy-flower-03aa5891e.7.azurestaticapps.net/ |
 | Reflection Document | ⏳ Add to repo |
 | Presentation Slides | ⏳ Prepare separately |
 | Git Log | Run `git log --pretty=format:"%h - %an - %ad - %s" --date=short` and include in submission |
