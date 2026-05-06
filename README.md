@@ -23,7 +23,7 @@ A modern fitness analytics web application built with **C# ASP.NET Core 10 MVC**
 ## 🌐 Live Deployment
 
 **GitHub Repository:** https://github.com/Ameramer2003/fittracker-ism6225.git  
-**Azure Deployment:** *In progress*
+**Azure Deployment:** https://fitness-app-group5.azurewebsites.net
 
 ---
 
