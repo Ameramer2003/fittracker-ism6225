@@ -1,0 +1,133 @@
+@{
+    ViewData["Title"] = "About";
+}
+
+@section Styles {
+<style>
+  .team-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px; margin-top: 40px;
+  }
+  .team-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 32px 28px; text-align: center; transition: all .25s;
+  }
+  .team-card:hover { border-color: var(--green-dim); transform: translateY(-4px); box-shadow: var(--glow); }
+  .avatar {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: rgba(0,230,118,.12); border: 2px solid rgba(0,230,118,.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem; margin: 0 auto 16px; overflow: hidden;
+  }
+  .avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+  .team-name  { color: var(--white); font-size: 1.1rem; margin-bottom: 4px; font-family: 'Manrope', sans-serif; font-weight: 700; }
+  .team-role  { color: var(--green); font-size: 0.78rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; }
+  .team-contrib { font-size: 0.85rem; line-height: 1.6; }
+  .tech-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 14px; border-radius: 999px;
+    background: var(--bg2); border: 1px solid var(--border);
+    font-size: 0.8rem; font-weight: 600; color: var(--muted); margin: 4px;
+  }
+  .api-box {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-left: 3px solid var(--green); border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 12px; font-size: 0.85rem;
+  }
+  .api-box code { color: var(--green); font-family: monospace; }
+</style>
+}
+
+<div class="page-header">
+    <p class="section-tag">About</p>
+    <h2>Meet the Team</h2>
+    <p>ISM 6225 &mdash; Application Development for Analytics &middot; University of South Florida</p>
+</div>
+
+<div class="section">
+
+    <div class="team-grid">
+        <div class="team-card">
+            <div class="avatar"><img src="~/images/Amer Profile Pic.jpg" alt="Amer Amer" onerror="this.style.display='none';this.parentElement.textContent='👤'" /></div>
+            <div class="team-name">Amer Amer</div>
+            <div class="team-role">Front End &amp; Full Stack Developer</div>
+            <p class="team-contrib">Designed and built the complete FitTracker application, including the MVC JavaScript architecture, localStorage CRUD operations, wger API integration, Exercise Library page, and the dark athletic theme using HTML5, CSS3, and JavaScript.</p>
+        </div>
+        <div class="team-card">
+            <div class="avatar"><img src="~/images/Nairi Profile Pic.jpg" alt="Nairi Keeney" onerror="this.style.display='none';this.parentElement.textContent='👤'" /></div>
+            <div class="team-name">Nairi Keeney</div>
+            <div class="team-role">Testing &amp; Delivery</div>
+            <p class="team-contrib">Helped in testing of website's functionality and creation of presentation.</p>
+        </div>
+        <div class="team-card">
+            <div class="avatar"><img src="~/images/Nada Profile Pic.jpg" alt="Nada Belafqih" onerror="this.style.display='none';this.parentElement.textContent='👤'" /></div>
+            <div class="team-name">Nada Belafqih</div>
+            <div class="team-role">Azure Deployment &amp; Documentation</div>
+            <p class="team-contrib">Supported Azure deployment verification, updated the About Us page, organized project documentation, and ensured the GitHub repository and submission materials clearly reflected the application's functionality, MVC architecture, and technical design.</p>
+        </div>
+        <div class="team-card">
+            <div class="avatar"><img src="~/images/Ron Profile Pic.jpg" alt="Ron Berle" onerror="this.style.display='none';this.parentElement.textContent='👤'" /></div>
+            <div class="team-name">Ron Berle</div>
+            <div class="team-role">Casual Architect</div>
+            <p class="team-contrib">Reviewing architecture and technical design, providing feedback on implementation, and ensuring best practices are followed throughout the project. Also providing support with infrastructure management and Azure SQL integration.</p>
+        </div>
+    </div>
+
+    <hr class="divider" />
+
+    <p class="section-tag">The Project</p>
+    <h2>About FitTracker</h2>
+    <span class="accent-bar"></span>
+
+    <div class="grid-2" style="margin-top:8px;">
+        <div>
+            <p style="font-size:0.95rem; line-height:1.8; margin-bottom:16px;">
+                FitTracker is a fully functional fitness analytics web application developed for ISM 6225 &mdash; Application Development for Analytics at the University of South Florida. The platform enables users to log workout sessions using full CRUD operations backed by <strong style="color:var(--white);">Azure SQL</strong>, visualize progress through interactive Chart.js dashboards, browse exercises fetched live from an external REST API, and receive personalized guidance through an AI-powered chatbot.
+            </p>
+            <p style="font-size:0.95rem; line-height:1.8; margin-bottom:24px;">
+                The application follows an <strong style="color:var(--white);">ASP.NET Core MVC</strong> architecture: <strong style="color:var(--white);">Models</strong> (EF Core + Azure SQL), <strong style="color:var(--white);">Views</strong> (Razor .cshtml), and <strong style="color:var(--white);">Controllers</strong> (C# with async/await). Data persists in a cloud-hosted Azure SQL database.
+            </p>
+        </div>
+        <div>
+            <div class="card">
+                <h3 style="color:var(--white); font-size:1rem; margin-bottom:16px;">Tech Stack</h3>
+                <div>
+                    <span class="tech-chip">&#127760; ASP.NET Core 10 MVC</span>
+                    <span class="tech-chip">&#128190; Entity Framework Core 10</span>
+                    <span class="tech-chip">&#9729;&#65039; Azure SQL</span>
+                    <span class="tech-chip">&#128202; Chart.js 4.4</span>
+                    <span class="tech-chip">&#127302; C# 13</span>
+                    <span class="tech-chip">&#127760; wger REST API</span>
+                    <span class="tech-chip">&#129302; Botpress AI</span>
+                    <span class="tech-chip">&#128025; GitHub</span>
+                    <span class="tech-chip">&#9729;&#65039; Azure App Service</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="divider" />
+
+    <p class="section-tag">External APIs</p>
+    <h2>Integrated Services</h2>
+    <span class="accent-bar"></span>
+
+    <div style="margin-top:24px;">
+        <div class="api-box">
+            <strong style="color:var(--white);">&#127760; wger REST API</strong><br>
+            <code>https://wger.de/api/v2/</code><br>
+            <span style="color:var(--muted); font-size:0.82rem; margin-top:4px; display:block;">Free, open-source fitness exercise database. No API key required. Powers the Exercise Library with live exercise data, muscle group information, and equipment details.</span>
+        </div>
+        <div class="api-box">
+            <strong style="color:var(--white);">&#129302; Botpress AI Coach</strong><br>
+            <code>Embedded chatbot widget</code><br>
+            <span style="color:var(--muted); font-size:0.82rem; margin-top:4px; display:block;">FitBot is an AI assistant trained on a curated exercise dataset. Provides personalized workout recommendations, form guidance, and fitness advice.</span>
+        </div>
+        <div class="api-box">
+            <strong style="color:var(--white);">&#9729;&#65039; Azure SQL Database</strong><br>
+            <code>fitnessdbs.database.windows.net / fitnessDB</code><br>
+            <span style="color:var(--muted); font-size:0.82rem; margin-top:4px; display:block;">Cloud-hosted relational database storing all workout entries. Accessed via Entity Framework Core with server-side LINQ queries and automatic migrations.</span>
+        </div>
+    </div>
+
+</div>

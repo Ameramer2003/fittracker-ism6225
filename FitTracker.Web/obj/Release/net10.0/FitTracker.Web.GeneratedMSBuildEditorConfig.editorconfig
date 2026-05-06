@@ -1,0 +1,91 @@
+is_global = true
+build_property.TargetFramework = net10.0
+build_property.TargetFramework = net10.0
+build_property.TargetPlatformMinVersion = 
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v10.0
+build_property.RootNamespace = FitTracker.Web
+build_property.RootNamespace = FitTracker.Web
+build_property.ProjectDir = /Users/ronb/Documents/repos/fittracker/fittracker-ism6225/FitTracker.Web/
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 9.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = /Users/ronb/Documents/repos/fittracker/fittracker-ism6225/FitTracker.Web
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 10.0
+build_property.EnableCodeStyleSeverity = 
+
+[/Users/ronb/Documents/repos/fittracker/fittracker-ism6225/FitTracker.Web/Views/Exercise/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXhlcmNpc2UvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ronb/Documents/repos/fittracker/fittracker-ism6225/FitTracker.Web/Views/Home/About.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9BYm91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ronb/Documents/repos/fittracker/fittracker-ism6225/FitTracker.Web/Views/Home/Bot.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Cb3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ronb/Documents/repos/fittracker/fittracker-ism6225/FitTracker.Web/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ronb/Documents/repos/fittracker/fittracker-ism6225/FitTracker.Web/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Qcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ronb/Documents/repos/fittracker/fittracker-ism6225/FitTracker.Web/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ronb/Documents/repos/fittracker/fittracker-ism6225/FitTracker.Web/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ronb/Documents/repos/fittracker/fittracker-ism6225/FitTracker.Web/Views/Workout/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvV29ya291dC9DcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ronb/Documents/repos/fittracker/fittracker-ism6225/FitTracker.Web/Views/Workout/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvV29ya291dC9EZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ronb/Documents/repos/fittracker/fittracker-ism6225/FitTracker.Web/Views/Workout/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvV29ya291dC9FZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ronb/Documents/repos/fittracker/fittracker-ism6225/FitTracker.Web/Views/Workout/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvV29ya291dC9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ronb/Documents/repos/fittracker/fittracker-ism6225/FitTracker.Web/Views/Workout/Visualizations.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvV29ya291dC9WaXN1YWxpemF0aW9ucy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ronb/Documents/repos/fittracker/fittracker-ism6225/FitTracker.Web/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ronb/Documents/repos/fittracker/fittracker-ism6225/FitTracker.Web/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ronb/Documents/repos/fittracker/fittracker-ism6225/FitTracker.Web/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-6i3ax3cwaq

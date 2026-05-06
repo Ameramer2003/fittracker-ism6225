@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] &mdash; FitTracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <nav class="navbar">
+        <a class="nav-brand" asp-controller="Home" asp-action="Index">⚡ FIT<span>TRACKER</span></a>
+        <button class="hamburger" onclick="toggleNav()" aria-label="Toggle navigation">&#9776;</button>
+        <ul class="nav-links" id="navLinks">
+            <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+            <li><a asp-controller="Workout" asp-action="Visualizations">Analytics</a></li>
+            <li><a asp-controller="Exercise" asp-action="Index">Exercise Library</a></li>
+            <li><a asp-controller="Workout" asp-action="Create">Log Workout</a></li>
+            <li><a asp-controller="Workout" asp-action="Index">My Log</a></li>
+            <li><a asp-controller="Home" asp-action="Bot">AI Coach</a></li>
+            <li><a asp-controller="Home" asp-action="About">About</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        @RenderBody()
+    </main>
+
+    <footer class="site-footer">
+        <p>⚡ FitTracker &mdash; ISM 6225 Application Development for Analytics &middot; University of South Florida</p>
+    </footer>
+
+    <script>
+        function toggleNav() {
+            const nav = document.getElementById('navLinks');
+            nav.classList.toggle('open');
+        }
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

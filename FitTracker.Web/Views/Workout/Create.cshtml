@@ -1,0 +1,163 @@
+@model FitTracker.Web.Models.ViewModels.WorkoutFormViewModel
+@{
+    ViewData["Title"] = "Log Workout";
+}
+
+@section Styles {
+<style>
+  .form-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 40px;
+    max-width: 680px; margin: 0 auto;
+  }
+  .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @@media (max-width: 600px) {
+    .form-grid-2 { grid-template-columns: 1fr; }
+    .form-card { padding: 24px; }
+  }
+</style>
+}
+
+<div class="page-header">
+    <span class="pill pill-green">CREATE</span>
+    <h2 style="margin-top:12px;">Log a New Workout</h2>
+    <p>Record your exercise session. Data is saved to Azure SQL.</p>
+</div>
+
+<div class="section">
+
+    <div class="form-card">
+        <p class="section-tag">New Entry</p>
+        <h3 style="color:var(--white); margin-bottom:6px;">Workout Details</h3>
+        <p style="margin-bottom:28px; font-size:0.85rem;">Fill in your session details and click Save. All fields marked with * are required.</p>
+
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly"></div>
+
+            <div class="form-section-label">Session Info</div>
+            <div class="form-grid-2">
+                <div class="form-group">
+                    <label asp-for="Date" class="form-label">Date <span class="req">*</span></label>
+                    <input asp-for="Date" type="date" class="form-control" />
+                    <span asp-validation-for="Date" class="field-validation-error"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Duration" class="form-label">Duration (minutes) <span class="req">*</span></label>
+                    <input asp-for="Duration" type="number" class="form-control" placeholder="e.g. 45" min="1" max="300" />
+                    <span asp-validation-for="Duration" class="field-validation-error"></span>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="form-section-label">Exercise</div>
+                <div class="form-group">
+                    <label asp-for="Exercise" class="form-label">Exercise Name <span class="req">*</span></label>
+                    <input asp-for="Exercise" type="text" class="form-control" placeholder="e.g. Bench Press, Squat, Running" id="exerciseInput" />
+                    <div class="form-hint">Browse the <a asp-controller="Exercise" asp-action="Index">Exercise Library</a> to find and auto-fill exercises.</div>
+                    <span asp-validation-for="Exercise" class="field-validation-error"></span>
+                </div>
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label asp-for="Category" class="form-label">Category / Muscle Group <span class="req">*</span></label>
+                        <select asp-for="Category" class="form-control" id="categorySelect">
+                            <option value="">&#8212; Select &#8212;</option>
+                            @foreach (var cat in FitTracker.Web.Models.ViewModels.WorkoutFormViewModel.Categories)
+                            {
+                                <option value="@cat">@cat</option>
+                            }
+                        </select>
+                        <span asp-validation-for="Category" class="field-validation-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Difficulty" class="form-label">Difficulty <span class="req">*</span></label>
+                        <select asp-for="Difficulty" class="form-control">
+                            <option value="">&#8212; Select &#8212;</option>
+                            @foreach (var d in FitTracker.Web.Models.ViewModels.WorkoutFormViewModel.Difficulties)
+                            {
+                                <option value="@d">@d</option>
+                            }
+                        </select>
+                        <span asp-validation-for="Difficulty" class="field-validation-error"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="form-section-label">Performance</div>
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label asp-for="Sets" class="form-label">Sets <span class="req">*</span></label>
+                        <input asp-for="Sets" type="number" class="form-control" placeholder="e.g. 4" min="1" max="20" />
+                        <span asp-validation-for="Sets" class="field-validation-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Reps" class="form-label">Reps per Set <span class="req">*</span></label>
+                        <input asp-for="Reps" type="number" class="form-control" placeholder="e.g. 10" min="1" max="100" />
+                        <span asp-validation-for="Reps" class="field-validation-error"></span>
+                    </div>
+                </div>
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label asp-for="Weight" class="form-label">Weight Used (lbs)</label>
+                        <input asp-for="Weight" type="number" class="form-control" placeholder="0 for bodyweight" min="0" />
+                        <div class="form-hint">Enter 0 for bodyweight exercises.</div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Calories" class="form-label">Calories Burned (est.)</label>
+                        <input asp-for="Calories" type="number" class="form-control" placeholder="e.g. 280" min="0" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="form-section-label">Details</div>
+                <div class="form-group">
+                    <label asp-for="Equipment" class="form-label">Equipment Used</label>
+                    <select asp-for="Equipment" class="form-control">
+                        <option value="">&#8212; Select &#8212;</option>
+                        @foreach (var eq in FitTracker.Web.Models.ViewModels.WorkoutFormViewModel.EquipmentOptions)
+                        {
+                            <option value="@eq">@eq</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Notes" class="form-label">Notes</label>
+                    <textarea asp-for="Notes" class="form-control" rows="3" placeholder="Personal records, how you felt, modifications made..."></textarea>
+                    <div class="form-hint">Optional. Record PRs, how you felt, or any modifications.</div>
+                    <span asp-validation-for="Notes" class="field-validation-error"></span>
+                </div>
+            </div>
+
+            <div style="display:flex; gap:12px; justify-content:flex-end; margin-top:24px; padding-top:20px; border-top:1px solid var(--border);">
+                <a asp-controller="Workout" asp-action="Index" class="btn btn-outline">Cancel</a>
+                <button type="submit" class="btn btn-primary">&#127947;&#65039; Save Workout</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+@section Scripts {
+<script>
+    // Pre-fill from URL query params (when coming from Exercise Library)
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('exercise')) {
+        const input = document.getElementById('exerciseInput');
+        if (input && !input.value) input.value = params.get('exercise');
+    }
+    if (params.get('category')) {
+        const sel = document.getElementById('categorySelect');
+        if (sel) {
+            const val = params.get('category');
+            for (const opt of sel.options) {
+                if (opt.value.toLowerCase() === val.toLowerCase()) {
+                    sel.value = opt.value;
+                    break;
+                }
+            }
+        }
+    }
+</script>
+}

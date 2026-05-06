@@ -1,0 +1,89 @@
+@model FitTracker.Web.Models.Workout
+@{
+    ViewData["Title"] = "Delete Workout";
+}
+
+@section Styles {
+<style>
+  .delete-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 40px;
+    max-width: 600px; margin: 0 auto;
+  }
+  .danger-strip {
+    background: rgba(255,77,77,.08); border: 1px solid rgba(255,77,77,.25);
+    border-radius: var(--radius); padding: 20px 24px; margin-bottom: 28px;
+  }
+  .detail-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 0.88rem;
+  }
+  .detail-row:last-child { border-bottom: none; }
+  .detail-label { color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; font-size: 0.76rem; }
+  .detail-val { color: var(--white); font-weight: 600; }
+</style>
+}
+
+<div class="page-header">
+    <span class="pill pill-red">DELETE</span>
+    <h2 style="margin-top:12px;">Delete Workout</h2>
+    <p>This action cannot be undone. The entry will be permanently removed from Azure SQL.</p>
+</div>
+
+<div class="section">
+
+    <div class="delete-card">
+        <a asp-controller="Workout" asp-action="Index" class="back-link">Back to Log</a>
+
+        <div class="danger-strip">
+            <strong style="color:var(--danger);">&#9888;&#65039; You are about to permanently delete:</strong>
+        </div>
+
+        <div style="margin-bottom:28px;">
+            <div class="detail-row">
+                <span class="detail-label">Exercise</span>
+                <span class="detail-val">@Model.Exercise</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Date</span>
+                <span class="detail-val">@Model.Date.ToString("MMMM d, yyyy")</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Category</span>
+                <span class="detail-val"><span class="pill pill-green">@Model.Category</span></span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Sets &times; Reps</span>
+                <span class="detail-val">@Model.Sets &times; @Model.Reps</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Weight</span>
+                <span class="detail-val">@(Model.Weight == 0 ? "Bodyweight" : Model.Weight + " lbs")</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Calories</span>
+                <span class="detail-val">@Model.Calories kcal</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Duration</span>
+                <span class="detail-val">@Model.Duration min</span>
+            </div>
+            @if (!string.IsNullOrEmpty(Model.Notes))
+            {
+                <div class="detail-row">
+                    <span class="detail-label">Notes</span>
+                    <span class="detail-val" style="max-width:300px; text-align:right; white-space:normal;">@Model.Notes</span>
+                </div>
+            }
+        </div>
+
+        <form asp-action="Delete" asp-route-id="@Model.Id" method="post">
+            @Html.AntiForgeryToken()
+            <div style="display:flex; gap:12px; justify-content:flex-end; padding-top:20px; border-top:1px solid var(--border);">
+                <a asp-controller="Workout" asp-action="Index" class="btn btn-outline">&#8592; Cancel</a>
+                <button type="submit" class="btn btn-danger">&#128465;&#65039; Yes, Delete This Workout</button>
+            </div>
+        </form>
+    </div>
+
+</div>

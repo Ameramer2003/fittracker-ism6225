@@ -1,0 +1,105 @@
+<svg viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg" width="900" height="420">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#00e676"/>
+    </marker>
+  </defs>
+  <rect width="900" height="420" fill="#131917" rx="12"/>
+  <!-- USERS -->
+  <rect x="30" y="60" width="230" height="290" fill="#1a211e" stroke="#2a3530" stroke-width="1.5" rx="8"/>
+  <rect x="30" y="60" width="230" height="44" fill="#00e676" rx="8"/>
+  <rect x="30" y="96" width="230" height="12" fill="#00e676"/>
+  <text x="145" y="88" text-anchor="middle" fill="#000" font-family="Arial,sans-serif" font-size="16" font-weight="700" letter-spacing="2">USERS</text>
+  <line x1="30" y1="120" x2="260" y2="120" stroke="#2a3530" stroke-width="1"/>
+  <text x="50" y="139" fill="#f0faf4" font-family="Arial,sans-serif" font-size="12" font-weight="700">🔑  UserID</text>
+  <text x="230" y="139" text-anchor="end" fill="#00e676" font-family="Arial,sans-serif" font-size="10">PK</text>
+  <line x1="30" y1="150" x2="260" y2="150" stroke="#2a3530" stroke-width="1"/>
+  <text x="50" y="169" fill="#7a9187" font-family="Arial,sans-serif" font-size="12">FirstName</text>
+  <text x="230" y="169" text-anchor="end" fill="#7a9187" font-family="Arial,sans-serif" font-size="10">VARCHAR</text>
+  <line x1="30" y1="180" x2="260" y2="180" stroke="#2a3530" stroke-width="1"/>
+  <text x="50" y="199" fill="#7a9187" font-family="Arial,sans-serif" font-size="12">LastName</text>
+  <text x="230" y="199" text-anchor="end" fill="#7a9187" font-family="Arial,sans-serif" font-size="10">VARCHAR</text>
+  <line x1="30" y1="210" x2="260" y2="210" stroke="#2a3530" stroke-width="1"/>
+  <text x="50" y="229" fill="#7a9187" font-family="Arial,sans-serif" font-size="12">Email</text>
+  <text x="230" y="229" text-anchor="end" fill="#7a9187" font-family="Arial,sans-serif" font-size="10">VARCHAR</text>
+  <line x1="30" y1="240" x2="260" y2="240" stroke="#2a3530" stroke-width="1"/>
+  <text x="50" y="259" fill="#7a9187" font-family="Arial,sans-serif" font-size="12">Age</text>
+  <text x="230" y="259" text-anchor="end" fill="#7a9187" font-family="Arial,sans-serif" font-size="10">INT</text>
+  <line x1="30" y1="270" x2="260" y2="270" stroke="#2a3530" stroke-width="1"/>
+  <text x="50" y="289" fill="#7a9187" font-family="Arial,sans-serif" font-size="12">WeightLbs</text>
+  <text x="230" y="289" text-anchor="end" fill="#7a9187" font-family="Arial,sans-serif" font-size="10">DECIMAL</text>
+  <line x1="30" y1="300" x2="260" y2="300" stroke="#2a3530" stroke-width="1"/>
+  <text x="50" y="319" fill="#7a9187" font-family="Arial,sans-serif" font-size="12">HeightIn</text>
+  <text x="230" y="319" text-anchor="end" fill="#7a9187" font-family="Arial,sans-serif" font-size="10">DECIMAL</text>
+  <!-- WORKOUTS -->
+  <rect x="335" y="60" width="240" height="320" fill="#1a211e" stroke="#2a3530" stroke-width="1.5" rx="8"/>
+  <rect x="335" y="60" width="240" height="44" fill="#00e676" rx="8"/>
+  <rect x="335" y="96" width="240" height="12" fill="#00e676"/>
+  <text x="455" y="88" text-anchor="middle" fill="#000" font-family="Arial,sans-serif" font-size="16" font-weight="700" letter-spacing="2">WORKOUTS</text>
+  <line x1="335" y1="120" x2="575" y2="120" stroke="#2a3530" stroke-width="1"/>
+  <text x="355" y="139" fill="#f0faf4" font-family="Arial,sans-serif" font-size="12" font-weight="700">🔑  WorkoutID</text>
+  <text x="555" y="139" text-anchor="end" fill="#00e676" font-family="Arial,sans-serif" font-size="10">PK</text>
+  <line x1="335" y1="150" x2="575" y2="150" stroke="#2a3530" stroke-width="1"/>
+  <text x="355" y="169" fill="#ff6b35" font-family="Arial,sans-serif" font-size="12">🔗  UserID</text>
+  <text x="555" y="169" text-anchor="end" fill="#ff6b35" font-family="Arial,sans-serif" font-size="10">FK -&gt; Users</text>
+  <line x1="335" y1="180" x2="575" y2="180" stroke="#2a3530" stroke-width="1"/>
+  <text x="355" y="199" fill="#7a9187" font-family="Arial,sans-serif" font-size="12">WorkoutDate</text>
+  <text x="555" y="199" text-anchor="end" fill="#7a9187" font-family="Arial,sans-serif" font-size="10">DATE</text>
+  <line x1="335" y1="210" x2="575" y2="210" stroke="#2a3530" stroke-width="1"/>
+  <text x="355" y="229" fill="#7a9187" font-family="Arial,sans-serif" font-size="12">DurationMin</text>
+  <text x="555" y="229" text-anchor="end" fill="#7a9187" font-family="Arial,sans-serif" font-size="10">INT</text>
+  <line x1="335" y1="240" x2="575" y2="240" stroke="#2a3530" stroke-width="1"/>
+  <text x="355" y="259" fill="#7a9187" font-family="Arial,sans-serif" font-size="12">TotalCalories</text>
+  <text x="555" y="259" text-anchor="end" fill="#7a9187" font-family="Arial,sans-serif" font-size="10">INT</text>
+  <line x1="335" y1="270" x2="575" y2="270" stroke="#2a3530" stroke-width="1"/>
+  <text x="355" y="289" fill="#7a9187" font-family="Arial,sans-serif" font-size="12">Notes</text>
+  <text x="555" y="289" text-anchor="end" fill="#7a9187" font-family="Arial,sans-serif" font-size="10">TEXT</text>
+  <line x1="335" y1="300" x2="575" y2="300" stroke="#2a3530" stroke-width="1"/>
+  <text x="355" y="319" fill="#7a9187" font-family="Arial,sans-serif" font-size="12">CreatedAt</text>
+  <text x="555" y="319" text-anchor="end" fill="#7a9187" font-family="Arial,sans-serif" font-size="10">DATETIME</text>
+  <!-- EXERCISES -->
+  <rect x="640" y="60" width="235" height="350" fill="#1a211e" stroke="#2a3530" stroke-width="1.5" rx="8"/>
+  <rect x="640" y="60" width="235" height="44" fill="#00e676" rx="8"/>
+  <rect x="640" y="96" width="235" height="12" fill="#00e676"/>
+  <text x="757" y="88" text-anchor="middle" fill="#000" font-family="Arial,sans-serif" font-size="16" font-weight="700" letter-spacing="2">EXERCISES</text>
+  <line x1="640" y1="120" x2="875" y2="120" stroke="#2a3530" stroke-width="1"/>
+  <text x="660" y="139" fill="#f0faf4" font-family="Arial,sans-serif" font-size="12" font-weight="700">🔑  ExerciseID</text>
+  <text x="855" y="139" text-anchor="end" fill="#00e676" font-family="Arial,sans-serif" font-size="10">PK</text>
+  <line x1="640" y1="150" x2="875" y2="150" stroke="#2a3530" stroke-width="1"/>
+  <text x="660" y="169" fill="#ff6b35" font-family="Arial,sans-serif" font-size="12">🔗  WorkoutID</text>
+  <text x="855" y="169" text-anchor="end" fill="#ff6b35" font-family="Arial,sans-serif" font-size="10">FK -&gt; Workouts</text>
+  <line x1="640" y1="180" x2="875" y2="180" stroke="#2a3530" stroke-width="1"/>
+  <text x="660" y="199" fill="#7a9187" font-family="Arial,sans-serif" font-size="12">ExerciseName</text>
+  <text x="855" y="199" text-anchor="end" fill="#7a9187" font-family="Arial,sans-serif" font-size="10">VARCHAR</text>
+  <line x1="640" y1="210" x2="875" y2="210" stroke="#2a3530" stroke-width="1"/>
+  <text x="660" y="229" fill="#7a9187" font-family="Arial,sans-serif" font-size="12">Category</text>
+  <text x="855" y="229" text-anchor="end" fill="#7a9187" font-family="Arial,sans-serif" font-size="10">VARCHAR</text>
+  <line x1="640" y1="240" x2="875" y2="240" stroke="#2a3530" stroke-width="1"/>
+  <text x="660" y="259" fill="#7a9187" font-family="Arial,sans-serif" font-size="12">Sets</text>
+  <text x="855" y="259" text-anchor="end" fill="#7a9187" font-family="Arial,sans-serif" font-size="10">INT</text>
+  <line x1="640" y1="270" x2="875" y2="270" stroke="#2a3530" stroke-width="1"/>
+  <text x="660" y="289" fill="#7a9187" font-family="Arial,sans-serif" font-size="12">Reps</text>
+  <text x="855" y="289" text-anchor="end" fill="#7a9187" font-family="Arial,sans-serif" font-size="10">INT</text>
+  <line x1="640" y1="300" x2="875" y2="300" stroke="#2a3530" stroke-width="1"/>
+  <text x="660" y="319" fill="#7a9187" font-family="Arial,sans-serif" font-size="12">WeightLbs</text>
+  <text x="855" y="319" text-anchor="end" fill="#7a9187" font-family="Arial,sans-serif" font-size="10">DECIMAL</text>
+  <line x1="640" y1="330" x2="875" y2="330" stroke="#2a3530" stroke-width="1"/>
+  <text x="660" y="349" fill="#7a9187" font-family="Arial,sans-serif" font-size="12">CaloriesBurned</text>
+  <text x="855" y="349" text-anchor="end" fill="#7a9187" font-family="Arial,sans-serif" font-size="10">INT</text>
+  <line x1="640" y1="360" x2="875" y2="360" stroke="#2a3530" stroke-width="1"/>
+  <text x="660" y="379" fill="#7a9187" font-family="Arial,sans-serif" font-size="12">Equipment</text>
+  <text x="855" y="379" text-anchor="end" fill="#7a9187" font-family="Arial,sans-serif" font-size="10">VARCHAR</text>
+  <!-- Relationship arrows -->
+  <line x1="260" y1="165" x2="335" y2="165" stroke="#00e676" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="260" y1="158" x2="260" y2="172" stroke="#00e676" stroke-width="2"/>
+  <text x="295" y="158" text-anchor="middle" fill="#00e676" font-family="Arial,sans-serif" font-size="10" font-weight="700">1 : MANY</text>
+  <line x1="575" y1="165" x2="640" y2="165" stroke="#00e676" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="575" y1="158" x2="575" y2="172" stroke="#00e676" stroke-width="2"/>
+  <text x="607" y="158" text-anchor="middle" fill="#00e676" font-family="Arial,sans-serif" font-size="10" font-weight="700">1 : MANY</text>
+  <!-- Legend -->
+  <circle cx="48" cy="395" r="5" fill="#00e676"/>
+  <text x="60" y="399" fill="#7a9187" font-family="Arial,sans-serif" font-size="11">PK = Primary Key</text>
+  <circle cx="190" cy="395" r="5" fill="#ff6b35"/>
+  <text x="202" y="399" fill="#7a9187" font-family="Arial,sans-serif" font-size="11">FK = Foreign Key</text>
+  <text x="500" y="399" fill="#7a9187" font-family="Arial,sans-serif" font-size="11">One User -&gt; Many Workouts | One Workout -&gt; Many Exercises</text>
+</svg>
