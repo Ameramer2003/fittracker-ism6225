@@ -1,6 +1,8 @@
 # ⚡ FitTracker — ISM 6225 Application Development for Analytics
 
-A fully functional fitness analytics web application built for ISM 6225 at the University of South Florida. FitTracker lets users log workouts with real CRUD operations backed by localStorage, visualize progress through live Chart.js dashboards driven by real stored data, browse exercises from a live external REST API, and receive AI-powered fitness guidance through a Botpress chatbot.
+A modern fitness analytics web application built with **C# ASP.NET Core 10 MVC** for ISM 6225 at the University of South Florida. FitTracker provides a robust backend for logging workouts, managing exercises, tracking progress through data visualizations, and delivering AI-powered fitness guidance.
+
+**Modernized from:** Legacy HTML/JavaScript frontend with localStorage to a full-stack C# application with SQL Server database, Entity Framework ORM, and professional MVC architecture.
 
 ---
 
@@ -8,7 +10,7 @@ A fully functional fitness analytics web application built for ISM 6225 at the U
 
 | Name | Role |
 |------|------|
-| Amer Amer | Front End and Full Stack Developer, MVC Architecture|
+| Amer Amer | Full Stack Developer, C# MVC Architecture, Database Design |
 | Nairi Keeney | Testing and Delivery |
 | Nada Belafqih | Azure Deployment Support & Documentation |
 | Ronald Berle | API Integration & Schema Design |
@@ -20,183 +22,126 @@ A fully functional fitness analytics web application built for ISM 6225 at the U
 
 ## 🌐 Live Deployment
 
-**Azure Static Web Apps:** `https://happy-flower-03aa5891e.7.azurestaticapps.net/`  
-**GitHub Repository:** https://github.com/Ameramer2003/fittracker-ism6225.git
+**GitHub Repository:** https://github.com/Ameramer2003/fittracker-ism6225.git  
+**Azure Deployment:** *In progress*
 
 ---
 
-## 📄 Pages
+## 📄 Pages & Controllers
 
-| Page | File | Description |
-|------|------|-------------|
-| Home | `index.html` | Landing page with live stats from localStorage |
-| Analytics | `visualizations.html` | Three Chart.js charts driven by real localStorage data |
-| Exercise Library | `exercises.html` | Live exercise data fetched from wger REST API |
-| Log Workout | `create.html` | CREATE — saves new workout to localStorage |
-| My Log | `read.html` | READ — loads and filters workouts from localStorage |
-| Edit Entry | `update.html` | UPDATE — modifies existing localStorage workout |
-| Delete Entry | `delete.html` | DELETE — removes workout from localStorage with confirmation |
-| AI Coach | `mybot.html` | FitBot — Botpress AI fitness assistant |
-| About | `about.html` | Team info, MVC architecture, API docs, ERD |
+| Page | Controller | Description |
+|------|-----------|-------------|
+| Home | `HomeController` | Dashboard with user stats and recent workouts |
+| Workouts | `WorkoutController` | List all workouts (Index) |
+| Create Workout | `WorkoutController` | CREATE — Add new workout entry |
+| Edit Workout | `WorkoutController` | UPDATE — Modify existing workout |
+| Delete Workout | `WorkoutController` | DELETE — Remove workout with confirmation |
+| Exercises | `ExerciseController` | List and search exercises from external API |
+| Visualizations | `WorkoutController` | Analytics dashboard with charts |
+| About | `HomeController` | About the application and team |
 
 ---
 
-## 🏗️ JavaScript MVC Architecture
+## 🏗️ ASP.NET Core MVC Architecture
 
-The application follows a clean MVC pattern implemented in vanilla JavaScript:
+The application follows the classic MVC pattern with clean separation of concerns:
 
 ```
-js/
-├── storage.js           ← MODEL: localStorage CRUD + seed data + chart data helpers
-├── workoutController.js ← CONTROLLER: CRUD business logic, form reading, filtering
-└── apiController.js     ← API CONTROLLER: fetch() calls to wger.de REST API
-
-HTML pages              ← VIEWS: render data, capture user input, delegate to controllers
+FitTracker.Web/
+├── Controllers/
+│   ├── HomeController.cs       ← Home, About, Privacy, Bot pages
+│   ├── WorkoutController.cs    ← CRUD operations for workouts
+│   └── ExerciseController.cs   ← Exercise library management
+├── Models/
+│   ├── Workout.cs              ← Workout entity
+│   └── ViewModels/
+│       ├── HomeViewModel.cs     ← Dashboard data
+│       ├── WorkoutFormViewModel.cs     ← Create/Edit form
+│       └── WorkoutListViewModel.cs     ← List display
+├── Data/
+│   └── FitTrackerDbContext.cs  ← Entity Framework DbContext
+├── Migrations/
+│   └── [database migrations]   ← Schema versioning
+├── Views/
+│   ├── Home/
+│   ├── Workout/
+│   ├── Exercise/
+│   └── Shared/                 ← Layout, shared components
+└── wwwroot/
+    ├── css/                    ← Stylesheets
+    ├── js/                     ← Client-side scripts
+    └── lib/                    ← Bootstrap, jQuery, libraries
 ```
 
-### Model (storage.js)
-The `FitStorage` singleton manages all data persistence:
-- `init()` — Seeds localStorage with 12 sample workouts on first visit
-- `getAll()` — Returns all workout entries
-- `getById(id)` — Returns a single entry
-- `create(workout)` — Adds a new entry with auto-generated ID
-- `update(id, changes)` — Modifies an existing entry
-- `remove(id)` — Deletes an entry
-- `getStats()` — Returns summary counts for the home page
-- `getWeeklyData(n)` — Groups workouts by week for chart data
-- `getCategoryBreakdown()` — Groups workouts by category for doughnut chart
+### Models (Data Layer)
+- **Workout** — Represents a single workout entry with date, exercise, category, sets, reps, weight, duration, calories, notes
+- **Exercise** — Represents an exercise template (name, category, difficulty, equipment)
+- **User** — (Future) Will track user account information
 
-### Controllers
-- `WorkoutController` handles form-to-storage mapping for Create, Read (filter), Update, Delete
-- `ApiController` handles `fetch()` calls to the wger API with error handling
+### Controllers (Business Logic)
+- **WorkoutController** — Handles all CRUD operations for workouts with validation and error handling
+- **ExerciseController** — Manages exercise library and external API integration
+- **HomeController** — Serves dashboard and static pages
 
-### Views
-Each HTML page only renders data and delegates logic:
-- **create.html** reads URL params to pre-fill from Exercise Library, calls `WorkoutController.handleCreate()`
-- **read.html** calls `WorkoutController.getFiltered()` and links each row to `update.html?id=X` and `delete.html?id=X`
-- **update.html** reads `?id` from URL, loads entry via `FitStorage.getById()`, saves via `WorkoutController.handleUpdate()`
-- **delete.html** reads `?id` from URL, confirms type-to-delete, removes via `WorkoutController.handleDelete()`
-- **visualizations.html** calls `FitStorage.getWeeklyData()` and `FitStorage.getCategoryBreakdown()` for all chart data
-
----
-
-## 🌍 API Integration
-
-**API:** wger REST API (https://wger.de/api/v2/)  
-**Authentication:** None required (free, open-source, CORS-enabled)  
-**Implementation:** `js/apiController.js` using the browser's native `fetch()` API
-
-### Endpoints Used
-
-| Endpoint | Purpose |
-|----------|---------|
-| `GET /exercisecategory/?format=json` | Fetches muscle group categories to populate filter pills |
-| `GET /exerciseinfo/?format=json&language=2&limit=20` | Fetches exercises with English names, muscles, and equipment |
-| `GET /exerciseinfo/?format=json&language=2&category={id}` | Filters exercises by selected muscle group |
-
-### Exercise Library Flow
-1. Page loads → `ApiController.getCategories()` fetches all categories → renders filter pills
-2. User selects category → `ApiController.getExercises(categoryId)` fetches filtered exercises
-3. Exercises render as cards showing name, muscles, equipment, and description
-4. "Add to Workout" button links to `create.html?exercise=NAME&category=CATEGORY`
-5. `create.html` reads URL params and pre-fills the workout form
+### Views (Presentation Layer)
+- Razor views (.cshtml) for rendering HTML with embedded C# logic
+- Shared _Layout.cshtml for consistent page structure
+- Bootstrap-based responsive UI
 
 ---
 
 ## 💾 Data Persistence
 
-FitTracker uses the **Web Storage API (localStorage)** for client-side persistence.
+FitTracker uses **SQL Server** with **Entity Framework Core** for data persistence.
 
-- **Key:** `fittracker_workouts`
-- **Value:** JSON array of workout objects
-- **Seed data:** 12 sample workouts are loaded on first visit if localStorage is empty
-- **Data survives:** browser refresh, tab close, browser restart
-- **Data resets:** when localStorage is cleared or the user clicks "Clear Site Data"
+### Database Schema
 
-### Workout Object Schema
-
-```json
-{
-  "id": 1,
-  "date": "2025-04-08",
-  "exercise": "Bench Press",
-  "category": "Chest",
-  "difficulty": "Intermediate",
-  "sets": 4,
-  "reps": 10,
-  "weight": 135,
-  "calories": 320,
-  "duration": 45,
-  "equipment": "Barbell",
-  "notes": "Felt strong today.",
-  "createdAt": "2025-04-08T10:00:00.000Z"
-}
+```sql
+-- Workouts table
+CREATE TABLE Workouts (
+    WorkoutId INT PRIMARY KEY IDENTITY(1,1),
+    UserId INT,
+    ExerciseName NVARCHAR(255),
+    Category NVARCHAR(100),
+    Difficulty NVARCHAR(50),
+    Sets INT,
+    Reps INT,
+    Weight DECIMAL(10,2),
+    Calories INT,
+    Duration INT,
+    Equipment NVARCHAR(255),
+    Notes NVARCHAR(MAX),
+    WorkoutDate DATE,
+    CreatedAt DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (UserId) REFERENCES Users(UserId)
+);
 ```
 
----
-
-## 📊 Data Visualizations
-
-All three charts on the Analytics page (`visualizations.html`) are computed from real localStorage data:
-
-| Chart | Type | Data Source |
-|-------|------|-------------|
-| Weekly Calories Burned | Bar | `FitStorage.getWeeklyData(8)` — sums calories per week |
-| Workout Duration Trend | Line | `FitStorage.getWeeklyData(8)` — averages duration per week |
-| Exercise Category Mix | Doughnut | `FitStorage.getCategoryBreakdown()` — counts by category |
-
-Charts update automatically when new workouts are logged.
-
----
-
-## 🤖 FitBot — AI Chatbot
-
-FitBot is built on **Botpress** and trained on a 10-row curated exercise dataset including exercise names, categories, muscle groups, difficulty, equipment, sets, reps, and estimated calorie burns.
-
-**Sample questions:**
-- "What exercises target the chest?"
-- "How many calories does a deadlift burn?"
-- "Show me beginner exercises"
-- "What equipment do I need for pull-ups?"
-
----
-
-## 🗂️ Data Model (ERD)
-
-Three-tier normalized relational structure (logical model):
-
-![ERD Diagram](images/erd.svg)
-
-- One **User** → Many **Workouts** (one-to-many)
-- One **Workout** → Many **Exercises** (one-to-many)
-
-| Entity | Key Fields |
-|--------|-----------|
-| Users | UserID (PK), FirstName, LastName, Email, Age, WeightLbs, HeightIn |
-| Workouts | WorkoutID (PK), UserID (FK), WorkoutDate, DurationMin, TotalCalories, Notes, CreatedAt |
-| Exercises | ExerciseID (PK), WorkoutID (FK), ExerciseName, Category, Sets, Reps, WeightLbs, CaloriesBurned, Equipment |
-
----
-
-## 📁 File Structure
+### Entity-Relationship Diagram (Logical Model)
 
 ```
-fittracker/
-├── index.html           ← Home — dynamic stats from localStorage
-├── create.html          ← Log Workout (CREATE)
-├── read.html            ← My Log (READ)
-├── update.html          ← Edit Entry (UPDATE)
-├── delete.html          ← Delete Entry (DELETE)
-├── exercises.html       ← Exercise Library (External API)
-├── visualizations.html  ← Analytics (Chart.js driven by localStorage)
-├── mybot.html           ← AI Coach (Botpress)
-├── about.html           ← About Us, ERD, MVC explanation
-├── styles.css           ← Global dark athletic theme (CSS variables)
-├── README.md            ← This file
-└── js/
-    ├── storage.js           ← Model layer (localStorage)
-    ├── workoutController.js ← CRUD controller
-    └── apiController.js     ← External API controller
+Users (1) ──→ (many) Workouts
+├── UserId (PK)
+├── FirstName
+├── LastName
+├── Email
+└── ...
+
+Workouts
+├── WorkoutId (PK)
+├── UserId (FK)
+├── ExerciseName
+├── Category
+├── Difficulty
+├── Sets
+├── Reps
+├── Weight
+├── Calories
+├── Duration
+├── Equipment
+├── Notes
+├── WorkoutDate
+└── CreatedAt
 ```
 
 ---
@@ -205,29 +150,116 @@ fittracker/
 
 | Technology | Purpose |
 |------------|---------|
-| HTML5 | Page structure and semantic markup |
-| CSS3 + CSS Variables | Dark athletic theme, responsive layout |
-| JavaScript (ES6+) | MVC architecture, CRUD logic, API calls |
-| localStorage API | Client-side data persistence |
-| Chart.js 4.4 | Interactive data visualizations |
-| wger REST API | Live exercise library data |
-| Botpress | AI fitness chatbot |
+| C# 13 | Primary backend language |
+| ASP.NET Core 10 | Web framework and runtime |
+| Entity Framework Core 10 | ORM for database access |
+| SQL Server | Relational database |
+| Razor Views | Server-side HTML templating |
+| Bootstrap 5 | Responsive UI framework |
+| JavaScript (ES6+) | Client-side interactivity |
+| Chart.js | Data visualization |
 | GitHub | Version control |
-| Azure Static Web Apps | Cloud hosting and deployment |
+| Azure App Service | Cloud hosting and deployment |
 
 ---
 
-## 🚀 Deployment
+## 🚀 Getting Started
+
+### Prerequisites
+- .NET 10 SDK or later
+- SQL Server (LocalDB or Express for local development)
+- Visual Studio 2022 or Visual Studio Code with C# extension
 
 ### Running Locally
-Open `index.html` directly in a browser or use VS Code Live Server extension.
 
-### Azure Deployment
-1. Push repo to GitHub
-2. Create Azure Static Web App
-3. Connect to your GitHub repository
-4. Set build output to `/` (root)
-5. Deploy — Azure will auto-build from main branch
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/Ameramer2003/fittracker-ism6225.git
+   cd fittracker-ism6225
+   ```
+
+2. **Navigate to the project:**
+   ```bash
+   cd FitTracker.Web
+   ```
+
+3. **Restore dependencies:**
+   ```bash
+   dotnet restore
+   ```
+
+4. **Update the database:**
+   ```bash
+   dotnet ef database update
+   ```
+
+5. **Run the application:**
+   ```bash
+   dotnet run
+   ```
+
+6. **Open in browser:**
+   ```
+   https://localhost:5001
+   ```
+
+### Database Setup
+
+The application uses Entity Framework Core with automatic migrations:
+
+```bash
+# Create a new migration
+dotnet ef migrations add MigrationName
+
+# Update database
+dotnet ef database update
+
+# View migrations
+dotnet ef migrations list
+```
+
+### Configuration
+
+Update connection string in `appsettings.json`:
+
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=FitTrackerDb;Trusted_Connection=true;"
+  }
+}
+```
+
+---
+
+## 📦 Building for Production
+
+```bash
+# Build release version
+dotnet build -c Release
+
+# Publish to folder
+dotnet publish -c Release -o ./publish
+
+# Run from published folder
+dotnet ./publish/FitTracker.Web.dll
+```
+
+---
+
+## 🌐 Deployment
+
+### Azure App Service
+
+1. Create an Azure App Service for .NET
+2. Configure SQL Server database in Azure
+3. Update connection string in Azure Application Settings
+4. Deploy via GitHub Actions or Visual Studio Publish
+5. Set environment to Production
+
+### GitHub Actions
+
+The repository includes CI/CD workflows for automatic deployment on push to main branch.
 
 ---
 
@@ -235,19 +267,24 @@ Open `index.html` directly in a browser or use VS Code Live Server extension.
 
 | Requirement | Status |
 |-------------|--------|
-| CRUD — Create | ✅ create.html saves to localStorage |
-| CRUD — Read | ✅ read.html loads from localStorage with search/filter |
-| CRUD — Update | ✅ update.html edits localStorage entries by ID |
-| CRUD — Delete | ✅ delete.html removes localStorage entries with confirmation |
-| MVC Architecture | ✅ storage.js (Model) + controllers (Controller) + HTML (View) |
-| Data Persistence | ✅ localStorage with seed data on first visit |
-| External API | ✅ wger.de REST API via fetch() in apiController.js |
-| Data Visualizations | ✅ 3 Chart.js charts driven by real localStorage data |
-| AI Chatbot | ✅ Botpress FitBot on AI Coach page |
-| About Us Page | ✅ Team members, MVC explanation, ERD, API docs |
-| ERD | ✅ SVG entity-relationship diagram on About page |
+| CRUD — Create | ✅ POST /Workout/Create saves new workouts |
+| CRUD — Read | ✅ GET /Workout/Index lists all workouts with filtering |
+| CRUD — Update | ✅ POST /Workout/Edit modifies existing workouts |
+| CRUD — Delete | ✅ POST /Workout/Delete removes workouts with confirmation |
+| MVC Architecture | ✅ Controllers + Models + Razor Views |
+| Database Persistence | ✅ SQL Server with Entity Framework Core |
+| Entity Framework | ✅ Code-First migrations and DbContext |
+| Error Handling | ✅ Exception handling and validation |
+| Responsive UI | ✅ Bootstrap-based responsive design |
+| About Us Page | ✅ Team members, architecture, tech stack |
 | GitHub README | ✅ This file |
-| Azure Deployment | ⏳ Deploy and update URL above |
-| Reflection Document | ⏳ Add to repo |
-| Presentation Slides | ⏳ Prepare separately |
-| Git Log | Run `git log --pretty=format:"%h - %an - %ad - %s" --date=short` and include in submission |
+| Git Log | ✅ Available via `git log --oneline` |
+
+---
+
+## 📚 Additional Resources
+
+- [ASP.NET Core Documentation](https://learn.microsoft.com/en-us/aspnet/core/)
+- [Entity Framework Core](https://learn.microsoft.com/en-us/ef/core/)
+- [Razor Views Documentation](https://learn.microsoft.com/en-us/aspnet/core/mvc/views/razor)
+- [SQL Server Documentation](https://learn.microsoft.com/en-us/sql/)
