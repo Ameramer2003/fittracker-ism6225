@@ -7,26 +7,39 @@
   <link rel="stylesheet" href="styles.css" />
   <style>
     .team-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 24px; margin-top: 40px;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 32px; margin-top: 40px;
     }
     .team-card {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 32px 28px; text-align: center; transition: all .25s;
+      background: var(--grad-card); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden; transition: all .3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex; flex-direction: column;
     }
-    .team-card:hover { border-color: var(--green-dim); transform: translateY(-4px); box-shadow: var(--glow); }
-    .avatar {
-      width: 80px; height: 80px; border-radius: 50%;
-      background: rgba(0,230,118,.12); border: 2px solid rgba(0,230,118,.3);
+    .team-card:hover {
+      border-color: var(--border2);
+      transform: translateY(-6px);
+      box-shadow: var(--glow-strong);
+    }
+    .avatar-wrapper {
+      width: 100%; height: 280px; overflow: hidden; background: linear-gradient(135deg, rgba(0,230,118,0.1) 0%, rgba(0,230,118,0.05) 100%);
       display: flex; align-items: center; justify-content: center;
-      font-size: 2rem; margin: 0 auto 16px; overflow: hidden;
+    }
+    .avatar {
+      width: 200px; height: 200px; border-radius: 50%;
+      background: rgba(0,230,118,.15); border: 3px solid var(--green);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; overflow: hidden; box-shadow: 0 0 30px rgba(0,230,118,0.2);
     }
     .avatar img {
       width: 100%; height: 100%; object-fit: cover; border-radius: 50%;
     }
-    .team-name  { color: var(--white); font-size: 1.1rem; margin-bottom: 4px; font-family: 'Manrope', sans-serif; font-weight: 700; }
-    .team-role  { color: var(--green); font-size: 0.78rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; }
-    .team-contrib { font-size: 0.85rem; line-height: 1.6; }
+    .team-info {
+      padding: 28px 24px;
+      flex: 1; display: flex; flex-direction: column;
+    }
+    .team-name  { color: var(--white); font-size: 1.25rem; margin-bottom: 6px; font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px; }
+    .team-role  { color: var(--green); font-size: 0.8rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 14px; }
+    .team-contrib { font-size: 0.88rem; line-height: 1.7; color: var(--muted); flex: 1; }
     .erd-wrapper {
       background: var(--card); border: 1px solid var(--border);
       border-radius: var(--radius); padding: 32px; overflow-x: auto;
@@ -83,34 +96,50 @@
   <div class="team-grid">
 
     <div class="team-card">
-      <div class="avatar"><img src="./images/Amer Profile Pic.jpg" alt="Amer Amer"></div>
-      <div class="team-name">Amer Amer</div>
-      <div class="team-role">Front End & Full Stack Developer</div>
-      <p class="team-contrib">Designed and built the complete FitTracker application, including the MVC JavaScript architecture, localStorage CRUD operations, wger API integration, Exercise Library page, and the dark athletic theme using HTML5, CSS3, and JavaScript.</p>
+      <div class="avatar-wrapper">
+        <div class="avatar"><img src="./images/Amer Profile Pic.jpg" alt="Amer Amer"></div>
+      </div>
+      <div class="team-info" style="text-align: center;">
+        <div class="team-name">Amer Amer</div>
+        <div class="team-role">Front End & Full Stack Developer</div>
+        <p class="team-contrib">Designed and built the complete FitTracker application, including the MVC JavaScript architecture, localStorage CRUD operations, wger API integration, Exercise Library page, and the dark athletic theme using HTML5, CSS3, and JavaScript.</p>
+      </div>
     </div>
 
     <!-- TEAMMATE 2 -- Update name, role, and contribution below -->
     <div class="team-card">
-      <div class="avatar"><img src="./images/Nairi Profile Pic.jpg" alt="Nairi Keeney"></div>
-      <div class="team-name">Nairi Keeney</div>
-      <div class="team-role">Testing & Delivery</div>
-      <p class="team-contrib">Helped in testing of website's functionality and creation of presentation</p>
+      <div class="avatar-wrapper">
+        <div class="avatar"><img src="./images/Nairi Profile Pic.jpg" alt="Nairi Keeney"></div>
+      </div>
+      <div class="team-info" style="text-align: center;">
+        <div class="team-name">Nairi Keeney</div>
+        <div class="team-role">Testing & Delivery</div>
+        <p class="team-contrib">Helped in testing of website's functionality and creation of presentation</p>
+      </div>
     </div>
 
     <!-- TEAMMATE 3 -- Update name, role, and contribution below -->
     <div class="team-card">
-      <div class="avatar"><img src="./images/Nada Profile Pic.jpg" alt="Nada Belafqih"></div>
-      <div class="team-name">Nada Belafqih</div>
-      <div class="team-role">Azure Deployment & Documentation</div>
-      <p class="team-contrib">Supported Azure deployment verification, updated the About Us page, organized project documentation, and ensured the GitHub repository and submission materials clearly reflected the application's CRD functionality, MVC architecture, API integration, and overall technical design. Also assisted with testing the deployed application to ensure functionality. </p>
+      <div class="avatar-wrapper">
+        <div class="avatar"><img src="./images/Nada Profile Pic.jpg" alt="Nada Belafqih"></div>
+      </div>
+      <div class="team-info" style="text-align: center;">
+        <div class="team-name">Nada Belafqih</div>
+        <div class="team-role">Azure Deployment & Documentation</div>
+        <p class="team-contrib">Supported Azure deployment verification, updated the About Us page, organized project documentation, and ensured the GitHub repository and submission materials clearly reflected the application's CRD functionality, MVC architecture, API integration, and overall technical design. Also assisted with testing the deployed application to ensure functionality. </p>
+      </div>
     </div>
 
     <!-- TEAMMATE 4 -- Update name, role, and contribution below -->
     <div class="team-card">
-      <div class="avatar"><img src="./images/Ron Profile Pic.jpg" alt="Ron Berle"></div>
-      <div class="team-name">Ron Berle</div>
-      <div class="team-role">Casual Architect</div>
-      <p class="team-contrib">Reviewing architecture and technical design, providing feedback on implementation, and ensuring best practices are followed throughout the project.  Also providing support with infrastructure management.</p>
+      <div class="avatar-wrapper">
+        <div class="avatar"><img src="./images/Ron Profile Pic.jpg" alt="Ron Berle"></div>
+      </div>
+      <div class="team-info" style="text-align: center;">
+        <div class="team-name">Ron Berle</div>
+        <div class="team-role">Casual Architect</div>
+        <p class="team-contrib">Reviewing architecture and technical design, providing feedback on implementation, and ensuring best practices are followed throughout the project.  Also providing support with infrastructure management.</p>
+      </div>
     </div>
 
   </div>
